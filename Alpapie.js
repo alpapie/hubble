@@ -1,4 +1,4 @@
-window.Alpine = {
+window.Alpapie = {
   init: false,
 
   cache: new Map(),
@@ -21,9 +21,9 @@ window.Alpine = {
     "x-if": (element, value) => {
       if (!value) {
         if (element instanceof HTMLElement) {
-          if (!Alpine.cache.has(Alpine.constants.removedElement)) {
-            Alpine.cache.set(
-              Alpine.constants.removedElement,
+          if (!Alpapie.cache.has(Alpapie.constants.removedElement)) {
+            Alpapie.cache.set(
+              Alpapie.constants.removedElement,
               element.innerHTML.toString()
             );
           }
@@ -35,9 +35,9 @@ window.Alpine = {
       }
 
       if (element.innerHTML === "") {
-        if (Alpine.cache.has(Alpine.constants.removedElement)) {
-          element.innerHTML = Alpine.cache.get(
-            Alpine.constants.removedElement
+        if (Alpapie.cache.has(Alpapie.constants.removedElement)) {
+          element.innerHTML = Alpapie.cache.get(
+            Alpapie.constants.removedElement
           );
         }
       }
@@ -234,6 +234,6 @@ window.Alpine = {
 
 
 // windows load {
-Alpine.start(); // directive
+Alpapie.start(); // directive
 // routing
 // }
