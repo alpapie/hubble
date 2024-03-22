@@ -5,8 +5,9 @@
 
 2. **Code Transformation:**
    - [ ] Define a clear structure for the generated JavaScript code for Hubble components.
-   - [ ] Transform Hubble directives and syntax into placeholders for runtime processing efficiently.
-   - [ ] Ensure compatibility with various Hubble syntax variations and edge cases.
+   - [ ] Resolve imported component paths relative to the current file's location.
+   - [ ] Load imported components and include their content in the compilation process.
+   - [ ] Handle circular dependencies between components to prevent infinite loops or crashes.
 
 3. **Exporting:**
    - [ ] Write the transformed JavaScript code into `.js` files using a consistent naming convention.

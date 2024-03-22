@@ -1,6 +1,7 @@
-1. **Initialization:**
-   - [ ] Implement initialization logic to bootstrap the Hubble framework.
-   - [ ] Set up event listeners to detect DOM changes and Hubble directive triggers.
+1. **Setup and Initialization:**
+   - [ ] Initialize the runtime module to handle Hubble components and directives.
+   - [ ] Implement a mechanism to load and register Hubble components dynamically.
+   - [ ] Set up event listeners to detect changes in the DOM for reactive updates.
 
 2. **Component Lifecycle:**
    - [ ] Define lifecycle hooks for Hubble components (e.g., created, mounted, updated, destroyed).
