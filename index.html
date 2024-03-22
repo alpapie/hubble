@@ -18,13 +18,13 @@
     <button @click="count++">+</button>
     <span x-text="count"></span>
     <button @click="count--">-</button>
+    <input type="number" x-model="count">
 
     <div x-if="count % 2 === 0">
-      <p>Count is greater than 2</p>
+      <p>Count is an odd number</p>
     </div>
 
     <input type="text" x-model="color">
-    <input type="number" x-model="count">
 
     <div x-bind:style="'background-color:' + color">
       <p :class="'white'">This is a colored element</p>
