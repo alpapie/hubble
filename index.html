@@ -14,28 +14,42 @@
 </head>
 
 <body>
-  <div x-data="{count: 5, color:'green', list: [1, 2, 3]}">
-    <button @click="count++">+</button>
+  <div x-data="{count: 1, color:'green', list: [1, 2, 3]}">
+    <!-- <button @click="count++">+</button> -->
+    <span x-text="count + count"></span>
+    <span x-text="color"></span>
+    <span x-text="list[0]"></span>
+    <span x-text="list[1]"></span>
+    <span x-text="list[2]"></span>
+    <button @click="count--; console.log('decrement', count)">-</button>
     <span x-text="count"></span>
-    <button @click="count--">-</button>
-    <input type="number" x-model="count">
-
+    <button @click="count++; console.log('increment', count)">+</button>
     <div x-if="count % 2 === 0">
       <p>Count is an odd number</p>
     </div>
+    <div x-else>
+      <p>Count is an even number</p>
+    </div>
+    <div x-bind:style="'background-color:' + color">
+      <p :class="'white'">This is a colored element</p>
+    </div>
+    <!-- <button @click="count--">-</button>
+    <input type="number" x-model="count">
+
 
     <input type="text" x-model="color">
 
     <div x-bind:style="'background-color:' + color">
       <p :class="'white'">This is a colored element</p>
-    </div>
+    </div> -->
 
-    <ul x-for="item in list">
+    <!-- <ul x-for="item in list">
       <li x-text="item"></li>
-    </ul>
+    </ul> -->
   </div>
 
-  <script src="./Alpapie.js"></script>
+  <!-- <script src="./Alpapie.js"></script> -->
+  <script src="./hubble.js"></script>
 </body>
 
 </html>
