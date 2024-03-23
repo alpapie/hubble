@@ -1,22 +1,26 @@
 <script>
-import {Todo} from "./todo.huble"
+// import {Todo} from "./todo.huble"
 
 
 function Getdata(data){
     return data
 }
+console.log(" je suis la");
 </script>
 <style>
-    template{
+    template, div{
         color:red
     }
 </style>
+
+<div><h1> alpapie is here</h1></div>
 <template
-    x-data="{
-        search: '',
-        items: ['foo', 'bar', 'baz'],
-    }"
+x-data="{
+    search: '',
+    items: ['foo', 'bar', 'baz'],
+}"
 >
+<div><h1> alpapie is here</h1></div>
     <input placeholder="Search...">
  
     <ul>
