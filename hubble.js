@@ -14,14 +14,11 @@ window.hubble = {
     },
     'x-model': (el, value) => {
       const key = el.getAttribute('x-model');
-
-      // Update the checked property for checkboxes and radio buttons
       if (el.type === 'checkbox') {
         el.checked = !!value;
       } else if (el.type === 'radio') {
         el.checked = (value === el.value);
       } else {
-        // For other input types and elements, update the value property
         if (el.value !== value) {
           el.value = value;
         }

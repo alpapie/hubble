@@ -72,12 +72,6 @@ window.Alpapie = {
           // Append the content of the template instance to the element
           const content = templateInstance.content.cloneNode(true);
 
-          // // Traverse the cloned content and apply x-text directive if present
-          // content.querySelectorAll('[x-text]').forEach(textElement => {
-          //   const textValue = textElement.getAttribute('x-text');
-          //   textElement.textContent = eval(`this.${textValue}`);
-          // });
-
           el.appendChild(content);
         });
       }
