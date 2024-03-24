@@ -1,0 +1,12 @@
+{
+  "name": "hubble",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./hubble/index.js",
+  "scripts": {
+    "hubble":"node --watch-path=./src ./hubble/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

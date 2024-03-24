@@ -1,0 +1,34 @@
+<script>
+// import {Todo} from "./todo.huble"
+
+
+function Getdata(data){
+    return data
+}
+console.log(" je suis la");
+</script>
+<style>
+    template, div{
+        color:red
+    }
+</style>
+
+<div><h1> alpapie is here</h1></div>
+<a href="#/completed">completed</a>
+<template
+x-data="{
+    search: '',
+    items: ['foo', 'bar', 'baz'],
+}"
+>
+<div><h1> alpapie is here</h1></div>
+    <input placeholder="Search...">
+ 
+    <ul>
+        <template x-for="item in items" :key="item">
+            <Todo x-props="{item}"/>
+        </template>
+    </ul>
+</template>
+
+
