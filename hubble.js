@@ -55,24 +55,26 @@ window.hubble = {
       }
     },
     'x-if': (el, value) => {
-      if (!value) {
+      const nextSibling = el.nextElementSibling;
+      if (hubble.init) {
         const displayValue = el.style.getPropertyValue('display');
         if (displayValue !== '') {
           hubble.cache[el] = displayValue;
         }
+      }
+      if (!value) {
         el.style.display = 'none';
-        const nextSibling = el.nextElementSibling;
         if (nextSibling.getAttribute('x-else') !== null) {
-          if (hubble.cache[nextSibling]) nextSibling.style.display = hubble.cache[nextSibling]
-          nextSibling.style.display = 'block';
+          nextSibling.style.display = hubble.cache[nextSibling] || 'block';
         }
       } else {
         el.style.display = hubble.cache[el] || 'block';
-        const nextSibling = el.nextElementSibling
         if (nextSibling.getAttribute('x-else') !== null) {
-          const displayValue = nextSibling.style.getPropertyValue('display');
-          if (displayValue !== '') {
-            hubble.cache[nextSibling] = displayValue;
+          if (hubble.init) {
+            const displayValue = nextSibling.style.getPropertyValue('display');
+            if (displayValue !== '') {
+              hubble.cache[nextSibling] = displayValue;
+            }
           }
           nextSibling.style.display = 'none';
         }
@@ -92,15 +94,11 @@ window.hubble = {
 
       el.innerHTML = '';
 
-      hubble.data[array].forEach((dataItem, index) => {
+      hubble.data[array].forEach((_, index) => {
         const templateInstance = document.createElement('template');
-
         const html = template.replace(new RegExp(item, 'g'), `${array}[${index}]`);
-
         templateInstance.innerHTML = html;
-
         const content = templateInstance.content.cloneNode(true);
-
         el.appendChild(content);
       });
     }
