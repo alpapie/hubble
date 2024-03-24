@@ -1,6 +1,7 @@
 window.hubble = {
   init: true,
   cache: [],
+  data: [],
   directives: {
     'x-text': (el, value) => {
       if (el.innerText !== `${value}`) {
@@ -12,7 +13,7 @@ window.hubble = {
       const actualAttrName = attrName.startsWith(":") ? attrName.substring(1) : attrName.substring(7);
       el.setAttribute(actualAttrName, value);
     },
-    'x-model': (el, value) => {
+    'x-model': (el, value, uuid) => {
       const key = el.getAttribute('x-model');
       if (el.type === 'checkbox') {
         el.checked = !!value;
@@ -39,9 +40,9 @@ window.hubble = {
             newValue = e.target.value;
           }
 
-          let parsedValue = typeof hubble.data[key] === 'number' ? parseFloat(newValue) : newValue;
+          let parsedValue = typeof hubble.data[uuid][key] === 'number' ? parseFloat(newValue) : newValue;
 
-          hubble.data[key] = parsedValue;
+          hubble.data[uuid][key] = parsedValue;
         };
 
         switch (el.tagName.toLowerCase()) {
@@ -87,7 +88,7 @@ window.hubble = {
     },
     'x-item-key': (el, value) => {
     },
-    "x-for": (el, value) => {
+    "x-for": (el, value, uuid) => {
       const [item, array] = value.split(' in ');
       let template;
       if (hubble.init) {
@@ -99,7 +100,7 @@ window.hubble = {
 
       el.innerHTML = '';
 
-      hubble.data[array].forEach((_, index) => {
+      hubble.data[uuid][array].forEach((_, index) => {
         const templateInstance = document.createElement('template');
         const html = template.replace(new RegExp(item, 'g'), `${array}[${index}]`);
         templateInstance.innerHTML = html;
@@ -112,37 +113,37 @@ window.hubble = {
     const dataElements = document.querySelectorAll('[x-data]');
     dataElements.forEach((element) => {
       const dataString = element.getAttribute('x-data');
-      console.log(dataString);
       const dataObject = eval(`(${dataString})`);
-      this.initializeComponent(dataObject, element);
+      this.initializeComponent(element, dataObject);
     });
     this.init = false;
   },
-  initializeComponent(data, container) {
-    const proxyData = new Proxy(data, {
+  initializeComponent(container, data) {
+    const uuid = createUUID();
+    const proxyData = new Proxy(({ ...data, uuid }), {
       set: (target, key, value) => {
         target[key] = value;
-        this.updateDOM(container);
+        hubble.updateDOM(container, target.uuid);
         return true;
       }
     });
-    this.data = proxyData;
-    this.updateDOM(container);
+    hubble.data[uuid] = proxyData;
+    this.updateDOM(container, uuid);
   },
-  updateDOM(container) {
+  updateDOM(container, uuid) {
     this.walkDom(container, (el) => {
       for (const attr of el.attributes) {
         let { name, value } = attr;
         if (name.startsWith('x-bind') || name.startsWith(':')) {
-          this.directives['x-bind'](el, eval(`with (this.data) { ${value} }`))
+          this.directives['x-bind'](el, eval(`with (hubble.data[uuid]) { ${value} }`), uuid)
         } else if (name.startsWith('x-for')) {
-          this.directives['x-for'](el, value)
+          this.directives['x-for'](el, value, uuid)
         } else if (Object.keys(this.directives).some((k) => name.startsWith(k))) {
-          this.directives[name](el, eval(`with (this.data) { ${value} }`))
+          this.directives[name](el, eval(`with (hubble.data[uuid]) { ${value} }`), uuid)
         } else if (this.init && name.startsWith('@')) {
           const event = attr.name.substring(1);
           el.addEventListener(event, (e) => {
-            eval(`with (this.data) { ${value} }`)
+            eval(`with (hubble.data[uuid]) { ${value} }`)
           })
         }
       }
@@ -160,6 +161,11 @@ window.hubble = {
   },
 }
 
-const createRandomArray = (length, min, max) => Array.from({ length }, () => Math.floor(Math.random() * (max - min + 1)) + min);
+const createUUID = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
 
 window.hubble.start()
