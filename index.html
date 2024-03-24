@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <div x-data="{count: 1, color:'green', list: [1, 2, 3]}">
+  <div x-data="{count: 1, color:'green', list: [1, 2, 3], isShow: false}">
     <!-- <button @click="count++">+</button> -->
     <span x-text="color"></span>
     <span x-text="list[0]"></span>
@@ -37,6 +37,11 @@
       <p :style="'color:' + (count % 2 === 0 ? 'white' : 'black')">This is a colored element</p>
     </div>
     <input type="number" x-model="count">
+    <div>
+      <label for="show">Show content</label>
+      <input id="show" type="checkbox" x-model="isShow">
+      <p x-if="isShow">Content to show</p>
+    </div>
     <!-- <button @click="count--">-</button>
 
 

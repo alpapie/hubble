@@ -13,28 +13,36 @@ window.hubble = {
       el.setAttribute(actualAttrName, value);
     },
     'x-model': (el, value) => {
-      if (el.value !== `${value}`) {
-        el.value = value;
+      const key = el.getAttribute('x-model');
+
+      // Update the checked property for checkboxes and radio buttons
+      if (el.type === 'checkbox') {
+        el.checked = !!value;
+      } else if (el.type === 'radio') {
+        el.checked = (value === el.value);
+      } else {
+        // For other input types and elements, update the value property
+        if (el.value !== value) {
+          el.value = value;
+        }
       }
+
       if (hubble.init) {
-        const key = el.getAttribute('x-model');
         const updateData = (e) => {
-          const inputValue = e.target.value;
-          const dataType = typeof hubble.data[key];
-
-          let parsedValue;
-
-          switch (dataType) {
-            case 'number':
-              parsedValue = parseFloat(inputValue);
-              break;
-            case 'boolean':
-              parsedValue = inputValue.toLowerCase() === 'true';
-              break;
-            default:
-              parsedValue = inputValue;
-              break;
+          let newValue;
+          if (el.type === 'checkbox') {
+            newValue = el.checked;
+          } else if (el.type === 'radio') {
+            if (el.checked) {
+              newValue = el.value;
+            } else {
+              return;
+            }
+          } else {
+            newValue = e.target.value;
           }
+
+          let parsedValue = typeof hubble.data[key] === 'number' ? parseFloat(newValue) : newValue;
 
           hubble.data[key] = parsedValue;
         };
@@ -64,12 +72,12 @@ window.hubble = {
       }
       if (!value) {
         el.style.display = 'none';
-        if (nextSibling.getAttribute('x-else') !== null) {
+        if (nextSibling && nextSibling.getAttribute('x-else') !== null) {
           nextSibling.style.display = hubble.cache[nextSibling] || 'block';
         }
       } else {
         el.style.display = hubble.cache[el] || 'block';
-        if (nextSibling.getAttribute('x-else') !== null) {
+        if (nextSibling && nextSibling.getAttribute('x-else') !== null) {
           if (hubble.init) {
             const displayValue = nextSibling.style.getPropertyValue('display');
             if (displayValue !== '') {
