@@ -14,17 +14,15 @@
 </head>
 
 <body>
-  <div x-data="{count: 1, color:'green', list: [1, 2, 3], isShow: false}">
-    <!-- <button @click="count++">+</button> -->
-    <span x-text="color"></span>
+  <div x-data="{count: 1, list: [1, 2, 3], isShow: false}">
     <span x-text="list[0]"></span>
     <span x-text="list[1]"></span>
     <span x-text="list[2]"></span>
     <span x-text="'Date: ' + new Date().getFullYear()"></span>
     <div>
-      <button @click="count--; console.log('decrement', count)">-</button>
+      <button @click="count--">-</button>
       <span x-text="count"></span>
-      <button @click="count++; console.log('increment', count)">+</button>
+      <button @click="count++">+</button>
       <span x-text="'Double is: ' + (count * 2)"></span>
     </div>
     <div x-if="count % 2 === 0">
@@ -33,23 +31,12 @@
     <div x-else>
       <p>Count is an odd number</p>
     </div>
-    <div x-bind:style="'background-color:' + color">
-      <p :style="'color:' + (count % 2 === 0 ? 'white' : 'black')">This is a colored element</p>
-    </div>
     <input type="number" x-model="count">
     <div>
       <label for="show">Show content</label>
       <input id="show" type="checkbox" x-model="isShow">
       <p x-if="isShow">Content to show</p>
     </div>
-    <!-- <button @click="count--">-</button>
-
-
-    <input type="text" x-model="color">
-
-    <div x-bind:style="'background-color:' + color">
-      <p :class="'white'">This is a colored element</p>
-    </div> -->
 
     <button @click="list = [...list.map(v => v*2)]">Double item</button>
     <button @click="list = [...list, list[list.length - 1] + 1]">Add item</button>
@@ -60,9 +47,16 @@
       <span>Bonjour</span>
     </ul>
   </div>
+  <div x-data="{color: '#000'}">
+    <span x-text="color"></span>
+    <input x-model="color" type="color" />
+    <div x-bind:style="'background-color:' + color">
+      <p :class="'white'">This is a colored element</p>
+    </div>
+  </div>
 
   <!-- <script src="./Alpapie.js"></script> -->
-  <script src="./hubble.js"></script>
+  <script preload src="./hubble.js"></script>
 </body>
 
 </html>

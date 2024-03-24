@@ -109,20 +109,28 @@ window.hubble = {
     }
   },
   start() {
-    this.root = document.querySelector('[x-data]');
-    const dataString = this.root.getAttribute('x-data');
-    this.data = new Proxy(eval(`(${dataString})`), {
+    const dataElements = document.querySelectorAll('[x-data]');
+    dataElements.forEach((element) => {
+      const dataString = element.getAttribute('x-data');
+      console.log(dataString);
+      const dataObject = eval(`(${dataString})`);
+      this.initializeComponent(dataObject, element);
+    });
+    this.init = false;
+  },
+  initializeComponent(data, container) {
+    const proxyData = new Proxy(data, {
       set: (target, key, value) => {
         target[key] = value;
-        this.updateDOM()
+        this.updateDOM(container);
         return true;
       }
     });
-    this.updateDOM()
-    this.init = false;
+    this.data = proxyData;
+    this.updateDOM(container);
   },
-  updateDOM() {
-    this.walkDom(this.root, (el) => {
+  updateDOM(container) {
+    this.walkDom(container, (el) => {
       for (const attr of el.attributes) {
         let { name, value } = attr;
         if (name.startsWith('x-bind') || name.startsWith(':')) {
