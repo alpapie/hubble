@@ -16,25 +16,28 @@
 <body>
   <div x-data="{count: 1, color:'green', list: [1, 2, 3]}">
     <!-- <button @click="count++">+</button> -->
-    <span x-text="count + count"></span>
     <span x-text="color"></span>
     <span x-text="list[0]"></span>
     <span x-text="list[1]"></span>
     <span x-text="list[2]"></span>
-    <button @click="count--; console.log('decrement', count)">-</button>
-    <span x-text="count"></span>
-    <button @click="count++; console.log('increment', count)">+</button>
-    <div x-if="count % 2 === 0">
-      <p>Count is an odd number</p>
+    <span x-text="'Date: ' + new Date().getFullYear()"></span>
+    <div>
+      <button @click="count--; console.log('decrement', count)">-</button>
+      <span x-text="count"></span>
+      <button @click="count++; console.log('increment', count)">+</button>
+      <span x-text="'Double is: ' + (count * 2)"></span>
     </div>
-    <div x-else>
+    <div x-if="count % 2 === 0">
       <p>Count is an even number</p>
     </div>
-    <div x-bind:style="'background-color:' + color">
-      <p :class="'white'">This is a colored element</p>
+    <div x-else>
+      <p>Count is an odd number</p>
     </div>
-    <!-- <button @click="count--">-</button>
+    <div x-bind:style="'background-color:' + color">
+      <p :style="'color:' + (count % 2 === 0 ? 'white' : 'black')">This is a colored element</p>
+    </div>
     <input type="number" x-model="count">
+    <!-- <button @click="count--">-</button>
 
 
     <input type="text" x-model="color">
