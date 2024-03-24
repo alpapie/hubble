@@ -6,7 +6,7 @@ function main(){
 
     let componentsContent=  FolderHubleTraitement()
     // console.log(componentsContent)
-    fs.writeFileSync(path.join(__dirname+"/../build", `app.js`), componentsContent);
+    fs.writeFileSync(path.join(__dirname, "../build", "app.js"), componentsContent, { flag: "w" });
     fs.writeFileSync(path.join(__dirname+"/../build", `index.html`), indexContent);
 
 }
@@ -23,8 +23,7 @@ let indexContent=`
 </head>
 <body>
     <div class="hubble">
-    <hub-route></hub-route>
-    <hub-page></hub-page>
+    <hub-router></hub-router>
     alpapie
     </div>
   <script type="module" src="/app.js"></script>
