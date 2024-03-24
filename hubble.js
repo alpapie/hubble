@@ -78,6 +78,32 @@ window.hubble = {
         }
       }
     },
+    'x-item-key': (el, value) => {
+    },
+    "x-for": (el, value) => {
+      const [item, array] = value.split(' in ');
+      let template;
+      if (hubble.init) {
+        template = el.innerHTML;
+        el.setAttribute('x-temp', template);
+      } else {
+        template = el.getAttribute('x-temp');
+      }
+
+      el.innerHTML = '';
+
+      hubble.data[array].forEach((dataItem, index) => {
+        const templateInstance = document.createElement('template');
+
+        const html = template.replace(new RegExp(item, 'g'), `${array}[${index}]`);
+
+        templateInstance.innerHTML = html;
+
+        const content = templateInstance.content.cloneNode(true);
+
+        el.appendChild(content);
+      });
+    }
   },
   start() {
     this.root = document.querySelector('[x-data]');
@@ -98,7 +124,8 @@ window.hubble = {
         let { name, value } = attr;
         if (name.startsWith('x-bind') || name.startsWith(':')) {
           this.directives['x-bind'](el, eval(`with (this.data) { ${value} }`))
-          continue
+        } else if (name.startsWith('x-for')) {
+          this.directives['x-for'](el, value)
         } else if (Object.keys(this.directives).some((k) => name.startsWith(k))) {
           this.directives[name](el, eval(`with (this.data) { ${value} }`))
         } else if (this.init && name.startsWith('@')) {
@@ -121,5 +148,7 @@ window.hubble = {
     }
   },
 }
+
+const createRandomArray = (length, min, max) => Array.from({ length }, () => Math.floor(Math.random() * (max - min + 1)) + min);
 
 window.hubble.start()
