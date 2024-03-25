@@ -8,7 +8,7 @@ const server = http.createServer((req, res) => {
         main()
         let filePath = req.url === '/' ? '/index.html' : req.url;
         filePath = path.join(__dirname, '/example/build', filePath);
-    
+        console.log(req.url )
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 res.writeHead(404, { 'Content-Type': 'text/plain' });
