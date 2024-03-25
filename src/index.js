@@ -1,31 +1,32 @@
 const fs = require('fs');
 const path = require('path');
 
-let {FolderHubleTraitement} =require("./compiler/index.js")
-function main(){
+let { FolderHubbleTraitement } = require("./compiler/index.js")
 
-    let componentsContent=  FolderHubleTraitement()
-    // console.log(componentsContent)
+function main() {
+    let componentsContent = FolderHubbleTraitement()
+
+    // TODO: Make the build folder relative to the project root
     fs.writeFileSync(path.join(__dirname, "/../build", "app.js"), componentsContent, { flag: "w" });
-    fs.writeFileSync(path.join(__dirname+"/../build", `index.html`), getIndexContent(__dirname+"/../exemple/index.html",["/app.js"]));
+    fs.writeFileSync(path.join(__dirname + "/../build", `index.html`), getIndexContent(__dirname + "/../example/index.html", ["/app.js"]));
     moveFolderWithContent(sourceDir, destinationDir)
 }
 
 
-function getIndexContent(filePath="",jsPath=[]){
+function getIndexContent(filePath = "", jsPath = []) {
     const indexContent = fs.readFileSync(filePath, 'utf-8');
-    let srtjspath=jsPath.map((elem)=>{
+    let scriptTag = jsPath.map((elem) => {
         return `
         <script type="module" src="${elem}"></script>
         `
     })
-   return indexContent.replace(" %hubble-route","<hub-router></hub-router>").replace(" %hubble-file",srtjspath.join("\n"))
+    return indexContent.replace(" %hubble-route", "<hub-router></hub-router>").replace(" %hubble-file", scriptTag.join("\n"))
 }
 
 
 function moveFolderWithContent(sourceDir, destinationDir) {
     try {
-       
+
         if (!fs.existsSync(sourceDir)) {
             throw new Error(`The source folder ${sourceDir} does not exist.`);
         }
@@ -54,7 +55,7 @@ function moveFolderWithContent(sourceDir, destinationDir) {
 }
 
 // Usage of the function
-const sourceDir = __dirname+"/../exemple/static";
-const destinationDir = __dirname+"/../build";
+const sourceDir = __dirname + "/../example/static";
+const destinationDir = __dirname + "/../build";
 
 module.exports = { main };

@@ -1,6 +1,6 @@
-function createRouting(routes=[{name:"",hash:""}]){
+function createRouting(routes = [{ name: "", hash: "" }]) {
     let _route
-return `
+    return `
 
 export default class Router extends HTMLElement {
     constructor() {
@@ -8,18 +8,17 @@ export default class Router extends HTMLElement {
 
         /** @type {Route[]} */
         this.routes = [
-        ${
-            _route=routes.map((route)=>{
-                return `
+        ${_route = routes.map((route) => {
+        return `
                 {
                     name: '${route.name}',
                     hash: '${route.hash}',
-                    regExp: new RegExp(/^#${route.hash.replaceAll("/","\\/")}$/)
+                    regExp: new RegExp(/^#${route.hash.replaceAll("/", "\\/")}$/)
                 }
                 `
-        }),
-_route.join(',')
-          }
+    }),
+        _route.join(',')
+        }
             // 404 Page not found
             ,{
                 name: 'Hub-404',

@@ -1,12 +1,23 @@
 {
   "name": "hubble",
   "version": "1.0.0",
-  "description": "",
-  "main": "./hubble/index.js",
+  "description": "A modern web framework inspired by Alpine.js and WebComponents.",
+  "main": "./index.js",
   "scripts": {
-    "hubble":"node --watch-path=./exemple/src index.js",
+    "hubble": "node --watch-path=./example/src index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Hubble Core",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hubble-core/hubble.git"
+  },
+  "keywords": [
+    "hubble",
+    "web-framework",
+    "alpine.js",
+    "web-components",
+    "javascript"
+  ]
 }

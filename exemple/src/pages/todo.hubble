@@ -1,3 +1,0 @@
-<template>
-    <li  x-text="props.item"></li>
-</template>
