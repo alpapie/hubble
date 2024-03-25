@@ -4,23 +4,31 @@ const path = require('path');
 let { FolderHubbleTraitement } = require("./compiler/index.js")
 
 function main() {
-    let componentsContent = FolderHubbleTraitement()
-
-    // TODO: Make the build folder relative to the project root
-    fs.writeFileSync(path.join(__dirname, "/../example/build", "app.js"), componentsContent, { flag: "w" });
-    fs.writeFileSync(path.join(__dirname + "/../example/build", `index.html`), getIndexContent(__dirname + "/../example/index.html", ["/app.js"]));
-    moveFolderWithContent(sourceDir, destinationDir)
+    try {
+        let componentsContent = FolderHubbleTraitement()
+    
+        // TODO: Make the build folder relative to the project root
+        fs.writeFileSync(path.join(__dirname, "/../example/build", "app.js"), componentsContent, { flag: "w" });
+        fs.writeFileSync(path.join(__dirname + "/../example/build", `index.html`), getIndexContent(__dirname + "/../example/index.html", ["/app.js"]));
+        moveFolderWithContent(sourceDir, destinationDir)
+    } catch (error) {
+        throw new Error(error)
+    }
 }
 
 
 function getIndexContent(filePath = "", jsPath = []) {
-    const indexContent = fs.readFileSync(filePath, 'utf-8');
-    let scriptTag = jsPath.map((elem) => {
-        return `
-        <script type="module" src="${elem}"></script>
-        `
-    })
-    return indexContent.replace(" %hubble-route", "<hub-router></hub-router>").replace(" %hubble-file", scriptTag.join("\n"))
+    try {
+        const indexContent = fs.readFileSync(filePath, 'utf-8');
+        let scriptTag = jsPath.map((elem) => {
+            return `
+            <script type="module" src="${elem}"></script>
+            `
+        })
+        return indexContent.replace(" %hubble-route", "<hub-router></hub-router>").replace(" %hubble-file", scriptTag.join("\n"))
+    } catch (error) {
+        throw new Error(`error to fing index.html file: ${error}`)
+    } 
 }
 
 
@@ -50,7 +58,7 @@ function moveFolderWithContent(sourceDir, destinationDir) {
         });
     } catch (err) {
         console.error(`An error occurred while copying the folder: ${err}`);
-        throw new Error(err.message);
+        throw new Error(err);
     }
 }
 

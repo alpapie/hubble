@@ -2,19 +2,17 @@
     function Getdata(data) {
         return data
     }
-    console.log(" je suis la");
+
 </script>
 <style>
-    template,
-    div {
-        color: red
-    }
+ 
 </style>
 
 <div>
     <h1>hubble is here</h1>
 </div>
-<a href="#/completed">completed</a>
+<a href="#/active">completed</a>
+<img src="/images/Blue Modern Programming Facebook Post .jpg" alt="" >
 <template x-data="{
     search: '',
     items: ['foo', 'bar', 'baz'],
@@ -26,7 +24,7 @@
 
     <ul>
         <template x-for="item in items" :key="item">
-            <Todo x-props="{item}" />
+            <hub-todo x-props="{item}" />
         </template>
     </ul>
 </template>

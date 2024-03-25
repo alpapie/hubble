@@ -1,10 +1,53 @@
 
+class Activepage extends HTMLElement {
+    constructor() {
+        super();
+        //this.attachShadow({ mode: 'open' });
+        
+    }
+    connectedCallback(){
+        this.render()
+    }
+    render(){
+        let content= `
+        <ul class="list-group">
+    <li
+        class="list-group-item d-flex justify-content-between align-items-center active"
+    >
+        Active list item
+        <span class="badge bg-secondary badge-pill">pill1</span>
+    </li>
+    <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+    >
+        List item
+        <span class="badge bg-secondary badge-pill">pill2</span>
+    </li>
+    <li
+        class="list-group-item d-flex justify-content-between align-items-center disabled"
+    >
+        Disabled item
+        <span class="badge bg-secondary badge-pill">pill3</span>
+    </li>
+</ul>
+                `;
+        this.innerHTML=content
+    }
+}
+customElements.define('hub-activepage', Activepage);
+    
 class CompletedAllslaslapage extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
-<div class="btn-group-vertical" role="group" aria-label="">
+        //this.attachShadow({ mode: 'open' });
+        
+    }
+    connectedCallback(){
+        this.render()
+    }
+    render(){
+        let content= `
+        <div class="btn-group-vertical" role="group" aria-label="">
     <button type="button" class="btn btn-secondary">First One</button>
     <button type="button" class="btn btn-secondary">Second One</button>
     <div class="btn-group" role="group">
@@ -24,8 +67,8 @@ class CompletedAllslaslapage extends HTMLElement {
         </div>
     </div>
 </div>
-        `;
-        
+                `;
+        this.innerHTML=content
     }
 }
 customElements.define('hub-completedallslaslapage', CompletedAllslaslapage);
@@ -33,9 +76,15 @@ customElements.define('hub-completedallslaslapage', CompletedAllslaslapage);
 class CompletedOnepage extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
-<div class="btn-group-vertical" role="group" aria-label="">
+        //this.attachShadow({ mode: 'open' });
+        
+    }
+    connectedCallback(){
+        this.render()
+    }
+    render(){
+        let content= `
+        <div class="btn-group-vertical" role="group" aria-label="">
     <button type="button" class="btn btn-secondary">First One</button>
     <button type="button" class="btn btn-secondary">Second One</button>
     <div class="btn-group" role="group">
@@ -56,8 +105,8 @@ class CompletedOnepage extends HTMLElement {
         </div>
     </div>
 </div>
-        `;
-        
+                `;
+        this.innerHTML=content
     }
 }
 customElements.define('hub-completedonepage', CompletedOnepage);
@@ -65,9 +114,15 @@ customElements.define('hub-completedonepage', CompletedOnepage);
 class Completedpage extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
-<div class="dropdown open">
+        //this.attachShadow({ mode: 'open' });
+        
+    }
+    connectedCallback(){
+        this.render()
+    }
+    render(){
+        let content= `
+        <div class="dropdown open">
     <button
         class="btn btn-secondary dropdown-toggle"
         type="button"
@@ -85,8 +140,8 @@ class Completedpage extends HTMLElement {
         </button>
     </div>
 </div>
-        `;
-        
+                `;
+        this.innerHTML=content
     }
 }
 customElements.define('hub-completedpage', Completedpage);
@@ -94,19 +149,25 @@ customElements.define('hub-completedpage', Completedpage);
 class page extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
-<style>
-    template,
-    div {
-        color: red
+        //this.attachShadow({ mode: 'open' });
+        function Getdata(data) {
+        return data
     }
+    }
+    connectedCallback(){
+        this.render()
+    }
+    render(){
+        let content= `
+        <style>
+ 
 </style>
 
 <div>
     <h1>hubble is here</h1>
 </div>
-<a href="#/completed">completed</a>
+<a href="#/active">completed</a>
+<img src="/images/Blue Modern Programming Facebook Post .jpg" alt="" >
 <template x-data="{
     search: '',
     items: ['foo', 'bar', 'baz'],
@@ -118,15 +179,12 @@ class page extends HTMLElement {
 
     <ul>
         <template x-for="item in items" :key="item">
-            <Todo x-props="{item}" />
+            <hub-todo x-props="{item}" />
         </template>
     </ul>
 </template>
-        `;
-        function Getdata(data) {
-        return data
-    }
-    console.log(" je suis la");
+                `;
+        this.innerHTML=content
     }
 }
 customElements.define('hub-page', page);
@@ -134,13 +192,19 @@ customElements.define('hub-page', page);
 class todo extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
-<template>
+        //this.attachShadow({ mode: 'open' });
+        
+    }
+    connectedCallback(){
+        this.render()
+    }
+    render(){
+        let content= `
+        <template>
     <li x-text="props.item"></li>
 </template>
-        `;
-        
+                `;
+        this.innerHTML=content
     }
 }
 customElements.define('hub-todo', todo);
@@ -153,6 +217,12 @@ export default class Router extends HTMLElement {
         /** @type {Route[]} */
         this.routes = [
         
+                {
+                    name: 'hub-activepage',
+                    hash: '/active',
+                    regExp: new RegExp(/^#\/active$/)
+                }
+                ,
                 {
                     name: 'hub-completedallslaslapage',
                     hash: '/completed/allslasla',
