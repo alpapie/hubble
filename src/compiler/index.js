@@ -53,7 +53,12 @@ function FolderHubbleTraitement() {
     createAppFile(hubblePath, "");
 
     console.log(allContent, "route list" + new Date().toLocaleString());
-    return allContent + createRouting([...routes]);
+    return allContent + createRouting([...routes]) + '\n' + addRuntimeCode();
+}
+
+function addRuntimeCode() {
+    const runtimeCode = fs.readFileSync(__dirname + "/../runtime/index.js", 'utf-8');
+    return runtimeCode;
 }
 
 function createComponent(componentName = "", htmlContent, javaScriptCode) {
