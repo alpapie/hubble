@@ -141,10 +141,24 @@ window.hubble = {
         } else if (Object.keys(this.directives).some((k) => name.startsWith(k))) {
           this.directives[name](el, eval(`with (hubble.data[uuid]) { ${value} }`), uuid)
         } else if (this.init && name.startsWith('@')) {
-          const event = attr.name.substring(1);
-          el.addEventListener(event, (e) => {
-            eval(`with (hubble.data[uuid]) { ${value} }`)
-          })
+          const keyEventMatch = name.match(/^@(keydown|keyup)(\.[a-zA-Z]+)*$/);
+          if (keyEventMatch) {
+            const modifiers = keyEventMatch[2] ? keyEventMatch[2].split('.').slice(1) : [];
+            const event = keyEventMatch[1];
+
+            el.addEventListener(event, (e) => {
+              const isKeyPressed = modifiers.every(modifier => e.key === `${modifier.charAt(0).toUpperCase() + modifier.slice(1).toLowerCase()}`);
+
+              if (isKeyPressed) {
+                eval(`with (hubble.data[uuid]) { ${el.getAttribute(name)} }`);
+              }
+            });
+          } else {
+            const event = name.substring(1);
+            el.addEventListener(event, (e) => {
+              eval(`with (hubble.data[uuid]) { ${value} }`)
+            })
+          }
         }
       }
     })
