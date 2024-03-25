@@ -7,8 +7,8 @@ function main() {
     let componentsContent = FolderHubbleTraitement()
 
     // TODO: Make the build folder relative to the project root
-    fs.writeFileSync(path.join(__dirname, "/../build", "app.js"), componentsContent, { flag: "w" });
-    fs.writeFileSync(path.join(__dirname + "/../build", `index.html`), getIndexContent(__dirname + "/../example/index.html", ["/app.js"]));
+    fs.writeFileSync(path.join(__dirname, "/../example/build", "app.js"), componentsContent, { flag: "w" });
+    fs.writeFileSync(path.join(__dirname + "/../example/build", `index.html`), getIndexContent(__dirname + "/../example/index.html", ["/app.js"]));
     moveFolderWithContent(sourceDir, destinationDir)
 }
 
@@ -56,6 +56,6 @@ function moveFolderWithContent(sourceDir, destinationDir) {
 
 // Usage of the function
 const sourceDir = __dirname + "/../example/static";
-const destinationDir = __dirname + "/../build";
+const destinationDir = __dirname + "/../example/build";
 
 module.exports = { main };
