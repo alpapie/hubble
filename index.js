@@ -6,7 +6,7 @@ const { main } = require('./src');
 const server = http.createServer((req, res) => {
     main()
     let filePath = req.url === '/' ? '/index.html' : req.url;
-    filePath = path.join(__dirname, 'build', filePath);
+    filePath = path.join(__dirname, '/example/build', filePath);
 
     fs.readFile(filePath, (err, data) => {
         if (err) {
