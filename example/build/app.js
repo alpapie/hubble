@@ -30,6 +30,38 @@ class CompletedAllslaslapage extends HTMLElement {
 }
 customElements.define('hub-completedallslaslapage', CompletedAllslaslapage);
     
+class CompletedOnepage extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.innerHTML = `
+<div class="btn-group-vertical" role="group" aria-label="">
+    <button type="button" class="btn btn-secondary">First One</button>
+    <button type="button" class="btn btn-secondary">Second One</button>
+    <div class="btn-group" role="group">
+        <button
+            id="dropdownId"
+            type="button"
+            class="btn btn-secondary dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+        >
+            More
+            sd
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownId">
+            <a class="dropdown-item" href="#/">First Dropdown</a>
+            <a class="dropdown-item" href="#/completed">Second Dropdown</a>
+        </div>
+    </div>
+</div>
+        `;
+        
+    }
+}
+customElements.define('hub-completedonepage', CompletedOnepage);
+    
 class Completedpage extends HTMLElement {
     constructor() {
         super();
@@ -125,6 +157,12 @@ export default class Router extends HTMLElement {
                     name: 'hub-completedallslaslapage',
                     hash: '/completed/allslasla',
                     regExp: new RegExp(/^#\/completed\/allslasla$/)
+                }
+                ,
+                {
+                    name: 'hub-completedonepage',
+                    hash: '/completed/one',
+                    regExp: new RegExp(/^#\/completed\/one$/)
                 }
                 ,
                 {
