@@ -66,7 +66,7 @@ function FolderHubbleTraitement() {
         createAppFile(hubblePath, "");
         let routeComponnent=createRouting([...routes])
         let witgetComponnent=widgetComponnent(widgetsPath)
-        console.log(allContent, "route list" + new Date().toLocaleString());
+        // console.log(allContent, "route list" + new Date().toLocaleString());
         return allContent+ witgetComponnent+ routeComponnent;
         
     } catch (error) {
@@ -75,11 +75,21 @@ function FolderHubbleTraitement() {
 }
 
 function createComponent(componentName = "", htmlContent, javaScriptCode) {
+    const regex = /x-data="({[^}]*})"/;
+    const match = htmlContent.match(regex);
+    if (match) {
+        let xData = match[1]; 
+        console.log("matched ",xData)
+        xData= xData.replace("props",'props:${this.props}')
+        htmlContent= htmlContent.replace(regex,xData)
+    }
     const componentContent = `
 class ${componentName} extends HTMLElement {
     constructor() {
         super();
         //this.attachShadow({ mode: 'open' });
+        this.props=this.getAttribute("x-prop")
+        console.log(this.props)
         ${javaScriptCode}
     }
     connectedCallback(){
@@ -88,7 +98,8 @@ class ${componentName} extends HTMLElement {
     render(){
         let content= \`
         ${htmlContent.trim()}
-                \`;
+        \`;
+        
         this.innerHTML=content
     }
 }

@@ -3,6 +3,8 @@ class Activepage extends HTMLElement {
     constructor() {
         super();
         //this.attachShadow({ mode: 'open' });
+        this.props=this.getAttribute("x-prop")
+        console.log(this.props)
         
     }
     connectedCallback(){
@@ -30,7 +32,8 @@ class Activepage extends HTMLElement {
         <span class="badge bg-secondary badge-pill">pill3</span>
     </li>
 </ul>
-                `;
+        `;
+        
         this.innerHTML=content
     }
 }
@@ -40,6 +43,8 @@ class CompletedAllslaslapage extends HTMLElement {
     constructor() {
         super();
         //this.attachShadow({ mode: 'open' });
+        this.props=this.getAttribute("x-prop")
+        console.log(this.props)
         
     }
     connectedCallback(){
@@ -67,7 +72,8 @@ class CompletedAllslaslapage extends HTMLElement {
         </div>
     </div>
 </div>
-                `;
+        `;
+        
         this.innerHTML=content
     }
 }
@@ -77,6 +83,8 @@ class CompletedOnepage extends HTMLElement {
     constructor() {
         super();
         //this.attachShadow({ mode: 'open' });
+        this.props=this.getAttribute("x-prop")
+        console.log(this.props)
         
     }
     connectedCallback(){
@@ -105,7 +113,8 @@ class CompletedOnepage extends HTMLElement {
         </div>
     </div>
 </div>
-                `;
+        `;
+        
         this.innerHTML=content
     }
 }
@@ -115,6 +124,8 @@ class Completedpage extends HTMLElement {
     constructor() {
         super();
         //this.attachShadow({ mode: 'open' });
+        this.props=this.getAttribute("x-prop")
+        console.log(this.props)
         
     }
     connectedCallback(){
@@ -140,7 +151,8 @@ class Completedpage extends HTMLElement {
         </button>
     </div>
 </div>
-                `;
+        `;
+        
         this.innerHTML=content
     }
 }
@@ -150,6 +162,8 @@ class page extends HTMLElement {
     constructor() {
         super();
         //this.attachShadow({ mode: 'open' });
+        this.props=this.getAttribute("x-prop")
+        console.log(this.props)
         function Getdata(data) {
     return data;
   }
@@ -175,8 +189,7 @@ class page extends HTMLElement {
   </header>
   <main class="main" data-testid="main">
     <div class="toggle-all-container">
-      <input
-        class="toggle-all"
+      <input class="toggle-all"
         type="checkbox"
         data-testid="toggle-all"
       /><label class="toggle-all-label" for="toggle-all"
@@ -184,7 +197,7 @@ class page extends HTMLElement {
       >
     </div>
     <ul class="todo-list" data-testid="todo-list">
-        <hub-todo>  <hub-todo/>
+        <hub-todo x-prop="{name:'alpapie'}'">  <hub-todo/>
     </ul>
   </main>
   <footer class="footer" data-testid="footer">
@@ -197,7 +210,8 @@ class page extends HTMLElement {
     <button class="clear-completed" disabled="">Clear completed</button>
   </footer>
 </section>
-                `;
+        `;
+        
         this.innerHTML=content
     }
 }
@@ -207,6 +221,8 @@ class todo extends HTMLElement {
     constructor() {
         super();
         //this.attachShadow({ mode: 'open' });
+        this.props=this.getAttribute("x-prop")
+        console.log(this.props)
         
     }
     connectedCallback(){
@@ -214,18 +230,25 @@ class todo extends HTMLElement {
     }
     render(){
         let content= `
-        <li class="" data-testid="todo-item">
-        <div class="view">
-          <input
-            class="toggle"
-            type="checkbox"
-            data-testid="todo-item-toggle"
-          /><label data-testid="todo-item-label">label alpapie</label
-          ><button class="destroy" data-testid="todo-item-button"></button>
-        </div>
-      </li>
-      jjzjx
-                `;
+        <template {
+    count: 1,
+   props:${this.props}
+}>
+
+</template>
+<span x-text="props"></span>
+<li class="" data-testid="todo-item">
+    <div class="view">
+        <input
+        class="toggle"
+        type="checkbox"
+        data-testid="todo-item-toggle"
+        /><label data-testid="todo-item-label">label alpapie</label
+        ><button class="destroy" data-testid="todo-item-button"></button>
+    </div>
+</li>
+        `;
+        
         this.innerHTML=content
     }
 }
@@ -239,35 +262,35 @@ export default class Router extends HTMLElement {
         /** @type {Route[]} */
         this.routes = [
         
-                {
-                    name: 'hub-activepage',
-                    hash: '/active',
-                    regExp: new RegExp(/^#\/active$/)
-                }
+        {
+            name: 'hub-activepage',
+            hash: '/active',
+            regExp: new RegExp(/^#\/active$/)
+        }
                 ,
-                {
-                    name: 'hub-completedallslaslapage',
-                    hash: '/completed/allslasla',
-                    regExp: new RegExp(/^#\/completed\/allslasla$/)
-                }
+        {
+            name: 'hub-completedallslaslapage',
+            hash: '/completed/allslasla',
+            regExp: new RegExp(/^#\/completed\/allslasla$/)
+        }
                 ,
-                {
-                    name: 'hub-completedonepage',
-                    hash: '/completed/one',
-                    regExp: new RegExp(/^#\/completed\/one$/)
-                }
+        {
+            name: 'hub-completedonepage',
+            hash: '/completed/one',
+            regExp: new RegExp(/^#\/completed\/one$/)
+        }
                 ,
-                {
-                    name: 'hub-completedpage',
-                    hash: '/completed',
-                    regExp: new RegExp(/^#\/completed$/)
-                }
+        {
+            name: 'hub-completedpage',
+            hash: '/completed',
+            regExp: new RegExp(/^#\/completed$/)
+        }
                 ,
-                {
-                    name: 'hub-page',
-                    hash: '/',
-                    regExp: new RegExp(/^#\/$/)
-                }
+        {
+            name: 'hub-page',
+            hash: '/',
+            regExp: new RegExp(/^#\/$/)
+        }
                 
             // 404 Page not found
             ,{

@@ -20,8 +20,7 @@
   </header>
   <main class="main" data-testid="main">
     <div class="toggle-all-container">
-      <input
-        class="toggle-all"
+      <input class="toggle-all"
         type="checkbox"
         data-testid="toggle-all"
       /><label class="toggle-all-label" for="toggle-all"
@@ -29,7 +28,7 @@
       >
     </div>
     <ul class="todo-list" data-testid="todo-list">
-        <hub-todo>  <hub-todo/>
+        <hub-todo x-prop="{name:'alpapie'}'">  <hub-todo/>
     </ul>
   </main>
   <footer class="footer" data-testid="footer">
