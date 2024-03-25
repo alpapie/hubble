@@ -1,20 +1,37 @@
-<ul class="list-group">
-    <li
-        class="list-group-item d-flex justify-content-between align-items-center active"
-    >
-        Active list item
-        <span class="badge bg-secondary badge-pill">pill1</span>
-    </li>
-    <li
-        class="list-group-item d-flex justify-content-between align-items-center"
-    >
-        List item
-        <span class="badge bg-secondary badge-pill">pill2</span>
-    </li>
-    <li
-        class="list-group-item d-flex justify-content-between align-items-center disabled"
-    >
-        Disabled item
-        <span class="badge bg-secondary badge-pill">pill3</span>
-    </li>
-</ul>
+<script>
+    function Getdata(data) {
+      return data;
+    }
+  </script>
+  
+  <section class="todoapp" id="root">
+    <header class="header" data-testid="header">
+      <h1>todos</h1>
+      <div class="input-container">
+        <input
+          class="new-todo"
+          id="todo-input"
+          type="text"
+          data-testid="text-input"
+          placeholder="What needs to be done?"
+          value=""
+        />
+      </div>
+    </header>
+    <main class="main" data-testid="main">
+      <div class="toggle-all-container">
+        <input
+          class="toggle-all"
+          type="checkbox"
+          data-testid="toggle-all"
+        /><label class="toggle-all-label" for="toggle-all"
+          >Toggle All Input</label
+        >
+      </div>
+      <ul class="todo-list" data-testid="todo-list">
+          <hub-item>  <hub-item/>
+      </ul>
+    </main>
+    <hub-footer></hub-footer>
+  </section>
+  

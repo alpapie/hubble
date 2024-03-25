@@ -15,7 +15,7 @@
         data-testid="text-input"
         placeholder="What needs to be done?"
         value=""
-      /><label class="visually-hidden" for="todo-input">New Todo Input</label>
+      />
     </div>
   </header>
   <main class="main" data-testid="main">
@@ -29,16 +29,8 @@
       >
     </div>
     <ul class="todo-list" data-testid="todo-list">
-        <hub-todo>  <hub-todo/>
+        <hub-item>  <hub-item/>
     </ul>
   </main>
-  <footer class="footer" data-testid="footer">
-    <span class="todo-count">1 item left!</span>
-    <ul class="filters" data-testid="footer-navigation">
-      <li><a class="selected" href="#/">All</a></li>
-      <li><a class="" href="#/active">Active</a></li>
-      <li><a class="" href="#/completed">Completed</a></li>
-    </ul>
-    <button class="clear-completed" disabled="">Clear completed</button>
-  </footer>
+  <hub-footer></hub-footer>
 </section>
