@@ -3,13 +3,13 @@ const path = require('path');
 
 let { FolderHubbleTraitement } = require("./compiler/index.js")
 
-function main() {
+function main(projectName) {
     try {
         let componentsContent = FolderHubbleTraitement()
-    
+
         // TODO: Make the build folder relative to the project root
-        fs.writeFileSync(path.join(__dirname, "/../example/build", "app.js"), componentsContent, { flag: "w" });
-        fs.writeFileSync(path.join(__dirname + "/../example/build", `index.html`), getIndexContent(__dirname + "/../example/index.html", ["/app.js"]));
+        fs.writeFileSync(path.join(__dirname, `/../${projectName}/build`, "app.js"), componentsContent, { flag: "w" });
+        fs.writeFileSync(path.join(__dirname + `/../${projectName}/build`, `index.html`), getIndexContent(__dirname + "/../example/index.html", ["/app.js"]));
         moveFolderWithContent(sourceDir, destinationDir)
     } catch (error) {
         throw new Error(error)

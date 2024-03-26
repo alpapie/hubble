@@ -79,7 +79,7 @@ function createComponent(componentName = "", htmlContent, javaScriptCode) {
     const match = htmlContent.match(regex);
     if (match) {
         let xData = match[1]; 
-        console.log("matched ",xData)
+        // console.log("matched ",xData)
         xData= xData.replace("props",'props:${this.props}')
         htmlContent= htmlContent.replace(regex,xData)
     }

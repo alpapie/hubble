@@ -5,9 +5,16 @@ const { main } = require('./src');
 
 const server = http.createServer((req, res) => {
     try {
-        main()
+                
+        const json = fs.readFileSync('./package.json')  
+        const package = JSON.parse(json)
+
+        if (!package?.name) {
+            throw new Error("No package name in your package.json. please change It")
+        }
+        main(package?.name)
         let filePath = req.url === '/' ? '/index.html' : req.url;
-        filePath = path.join(__dirname, '/example/build', filePath);
+        filePath = path.join(__dirname, `/${package?.name}/build`, filePath);
         console.log(req.url )
         fs.readFile(filePath, (err, data) => {
             if (err) {
