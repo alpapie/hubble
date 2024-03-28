@@ -481,11 +481,11 @@ window.hubble = {
       for (const attr of el.attributes) {
         let { name, value } = attr;
         if (name.startsWith('x-bind') || name.startsWith(':')) {
-          this.directives['x-bind'](el, eval(`with (hubble.data[uuid]) { ${value} }`), uuid)
+          this.directives['x-bind'](el, eval(`hubble.data[uuid].${value}`), uuid)
         } else if (name.startsWith('x-for')) {
           this.directives['x-for'](el, value, uuid)
         } else if (Object.keys(this.directives).some((k) => name.startsWith(k))) {
-          this.directives[name](el, eval(`with (hubble.data[uuid]) { ${value} }`), uuid)
+          this.directives[name](el, eval(`hubble.data[uuid].${value}`), uuid)
         } else if (this.init && name.startsWith('@')) {
           const keyEventMatch = name.match(/^@(keydown|keyup)(\.[a-zA-Z]+)*$/);
           if (keyEventMatch) {
@@ -496,13 +496,13 @@ window.hubble = {
               const isKeyPressed = modifiers.every(modifier => e.key === `${modifier.charAt(0).toUpperCase() + modifier.slice(1).toLowerCase()}`);
 
               if (isKeyPressed) {
-                eval(`with (hubble.data[uuid]) { ${el.getAttribute(name)} }`);
+                eval(`hubble.data[uuid].${el.getAttribute(name)}`);
               }
             });
           } else {
             const event = name.substring(1);
             el.addEventListener(event, (e) => {
-              eval(`with (hubble.data[uuid]) { ${value} }`)
+              eval(`hubble.data[uuid].${value}`)
             })
           }
         }
