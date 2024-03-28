@@ -161,7 +161,6 @@ window.hubble = {
           } else {
             const event = name.substring(1);
             const _value = value.replaceAll('$', 'hubble.data[uuid].')
-            console.log(_value);
             el.addEventListener(event, (e) => {
               eval(_value)
             })
