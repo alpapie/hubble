@@ -79,14 +79,15 @@ function addRuntimeCode() {
     return runtimeCode;
 }
 function createComponent(componentName = "", htmlContent, javaScriptCode) {
-    const regex = /x-data="({[^}]*})"/;
-    const match = htmlContent.match(regex);
-    if (match) {
-        let xData = match[1]; 
-        // console.log("matched ",xData)
-        xData= xData.replace("props",'props:${this.props}')
-        htmlContent= htmlContent.replace(regex,xData)
-    }
+    // const regex = /x-data="({[^}]*})"/;
+    // const match = htmlContent.match(regex);
+    // let xData 
+    // if (match) {
+    //     xData = match[1]; 
+    //     console.log("matched ",xData)
+    //     xData= xData.replace("props",'props:${this.props}')
+    // }
+    // htmlContent= htmlContent.replace(regex,`x-data=`+xData)
     const componentContent = `
 class ${componentName} extends HTMLElement {
     constructor() {

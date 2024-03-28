@@ -111,6 +111,7 @@ window.hubble = {
   },
   start() {
     const dataElements = document.querySelectorAll('[x-data]');
+    console.log(dataElements);
     dataElements.forEach((element) => {
       const dataString = element.getAttribute('x-data');
       const dataObject = eval(`(${dataString})`);

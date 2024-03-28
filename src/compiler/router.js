@@ -6,7 +6,6 @@ export default class Router extends HTMLElement {
     constructor() {
         super()
 
-        /** @type {Route[]} */
         this.routes = [
         ${_route = routes.map((route) => {
         return `
@@ -46,14 +45,6 @@ export default class Router extends HTMLElement {
         self.removeEventListener('hashchange', this.hashChangeListener)
     }
 
-    /**
-     * route to the desired hash/domain
-     *
-     * @param {string} hash
-     * @param {boolean} [replace = false]
-     * @param {boolean} [isUrlEqual = true]
-     * @return {Route}
-     */
     route(hash, replace = false, isUrlEqual = true) {
         // escape on route call which is not set by hashchange event and trigger it here, if needed
         if (location.hash !== hash) {
@@ -77,24 +68,13 @@ export default class Router extends HTMLElement {
         return route ? route : this.previousRoute
     }
 
-    /**
-     * evaluates if a render is necessary
-     *
-     * @param {string} name
-     * @param {boolean} [isUrlEqual = true]
-     * @return {boolean}
-     */
+
     shouldComponentRender(name, isUrlEqual = true) {
         if (!this.children || !this.children.length) return true
         return !isUrlEqual || this.children[0].tagName !== name.toUpperCase()
     }
 
-    /**
-     * renders the page
-     *
-     * @param {HTMLElement} component
-     * @return {void}
-     */
+  
     render(component) {
         // clear previous content
         this.innerHTML = ''
