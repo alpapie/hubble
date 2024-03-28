@@ -88,6 +88,20 @@ To navigate between routes, you can use anchor tags with the `href` attribute se
 
 ---
 
-**5. Conclusion**
+**5. Explanation of Framework Functionality**
 
-By following this usage guide, you should now have a good understanding of how to get started with the Hubble Framework, create components, utilize directives, and implement routing functionality. For more detailed documentation and examples, refer to the official Hubble Framework documentation and explore the provided sample projects. Happy coding with Hubble!
+The Hubble Framework operates by leveraging JavaScript to enhance HTML with dynamic functionality. At its core, Hubble utilizes directives, which are special attributes added to HTML elements, to enable data binding, event handling, conditional rendering, and iteration over collections. 
+
+- **Data Binding**: Directives such as `x-data` and `x-model` facilitate two-way data binding between JavaScript data objects and HTML elements.
+- **Event Handling**: Directives like `x-on:event` enable the execution of JavaScript code in response to user events like clicks, input changes, etc.
+- **Conditional Rendering**: The `x-if` directive allows elements to be conditionally rendered based on boolean expressions.
+- **Iterating Over Collections**: With the `x-for` directive, developers can iterate over arrays and generate HTML elements dynamically.
+- **Routing**: Hubble offers built-in routing functionality for single-page applications (SPA), allowing developers to define routes based on the folder structure within the `pages` directory.
+
+By combining these features, developers can create interactive and responsive web applications using Hubble.
+
+---
+
+**6. Conclusion**
+
+By following this usage guide, you should now have a good understanding of how to get started with the Hubble Framework, create components, utilize directives, implement routing functionality, and understand the underlying mechanisms of the framework. For more detailed documentation and examples, refer to the official Hubble Framework documentation and explore the provided sample projects. Happy coding with Hubble!
