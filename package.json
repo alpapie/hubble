@@ -1,5 +1,5 @@
 {
-  "name": "hubble",
+  "name": "example",
   "version": "1.0.0",
   "description": "A modern web framework inspired by Alpine.js and WebComponents.",
   "main": "./index.js",

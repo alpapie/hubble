@@ -10,11 +10,11 @@ export default class Router extends HTMLElement {
         this.routes = [
         ${_route = routes.map((route) => {
         return `
-                {
-                    name: '${route.name}',
-                    hash: '${route.hash}',
-                    regExp: new RegExp(/^#${route.hash.replaceAll("/", "\\/")}$/)
-                }
+        {
+            name: '${route.name}',
+            hash: '${route.hash}',
+            regExp: new RegExp(/^#${route.hash.replaceAll("/", "\\/")}$/)
+        }
                 `
     }),
         _route.join(',')
