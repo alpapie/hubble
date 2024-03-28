@@ -1,0 +1,7 @@
+<li class="" data-testid="todo-item">
+  <div class="view">
+    <input class="toggle" type="checkbox" data-testid="todo-item-toggle" />
+    <label data-testid="todo-item-label">task 1</label>
+    <button class="destroy" data-testid="todo-item-button"></button>
+  </div>
+</li>
