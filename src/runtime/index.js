@@ -14,7 +14,7 @@ window.hubble = {
       el.setAttribute(actualAttrName, value);
     },
     'x-model': (el, value, uuid) => {
-      const key = el.getAttribute('x-model');
+      const key = el.getAttribute('x-model').replaceAll('$', '');
       if (el.type === 'checkbox') {
         el.checked = !!value;
       } else if (el.type === 'radio') {
@@ -100,7 +100,8 @@ window.hubble = {
 
       el.innerHTML = '';
 
-      hubble.data[uuid][array].forEach((_, index) => {
+      const _array = array.replaceAll('$', '');
+      hubble.data[uuid][_array].forEach((_, index) => {
         const templateInstance = document.createElement('template');
         const html = template.replace(new RegExp(item, 'g'), `${array}[${index}]`);
         templateInstance.innerHTML = html;
@@ -136,11 +137,13 @@ window.hubble = {
       for (const attr of el.attributes) {
         let { name, value } = attr;
         if (name.startsWith('x-bind') || name.startsWith(':')) {
-          this.directives['x-bind'](el, eval(`hubble.data[uuid].${value}`), uuid)
+          const _value = value.replaceAll('$', 'hubble.data[uuid].')
+          this.directives['x-bind'](el, eval(_value), uuid)
         } else if (name.startsWith('x-for')) {
           this.directives['x-for'](el, value, uuid)
         } else if (Object.keys(this.directives).some((k) => name.startsWith(k))) {
-          this.directives[name](el, eval(`hubble.data[uuid].${value}`), uuid)
+          const _value = value.replaceAll('$', 'hubble.data[uuid].')
+          this.directives[name](el, eval(_value), uuid)
         } else if (this.init && name.startsWith('@')) {
           const keyEventMatch = name.match(/^@(keydown|keyup)(\.[a-zA-Z]+)*$/);
           if (keyEventMatch) {
@@ -151,13 +154,16 @@ window.hubble = {
               const isKeyPressed = modifiers.every(modifier => e.key === `${modifier.charAt(0).toUpperCase() + modifier.slice(1).toLowerCase()}`);
 
               if (isKeyPressed) {
-                eval(`hubble.data[uuid].${el.getAttribute(name)}`);
+                const _value = el.getAttribute(name).replaceAll('$', 'hubble.data[uuid].')
+                eval(_value);
               }
             });
           } else {
             const event = name.substring(1);
+            const _value = value.replaceAll('$', 'hubble.data[uuid].')
+            console.log(_value);
             el.addEventListener(event, (e) => {
-              eval(`hubble.data[uuid].${value}`)
+              eval(_value)
             })
           }
         }

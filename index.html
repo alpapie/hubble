@@ -15,42 +15,42 @@
 
 <body>
   <div x-data="{count: 1, list: [1, 2, 3], isShow: false}">
-    <span x-text="list[0]"></span>
-    <span x-text="list[1]"></span>
-    <span x-text="list[2]"></span>
+    <span x-text="$list[0]"></span>
+    <span x-text="$list[1]"></span>
+    <span x-text="$list[2]"></span>
     <span x-text="'Date: ' + new Date().getFullYear()"></span>
     <div>
-      <button @click="count--">-</button>
-      <span x-text="count"></span>
-      <button @click="count++">+</button>
-      <span x-text="'Double is: ' + (count * 2)"></span>
+      <button @click="$count--">-</button>
+      <span x-text="$count"></span>
+      <button @click="$count++">+</button>
+      <span x-text="'Double is: ' + ($count * 2)"></span>
     </div>
-    <div x-if="count % 2 === 0">
+    <div x-if="$count % 2 === 0">
       <p>Count is an even number</p>
     </div>
     <div x-else>
       <p>Count is an odd number</p>
     </div>
-    <input type="number" x-model="count">
+    <input type="number" x-model="$count">
     <div>
       <label for="show">Show content</label>
-      <input id="show" type="checkbox" x-model="isShow">
-      <p x-if="isShow">Content to show</p>
+      <input id="show" type="checkbox" x-model="$isShow">
+      <p x-if="$isShow">Content to show</p>
     </div>
 
-    <button @click="list = [...list.map(v => v*2)]">Double item</button>
-    <button @click="list = [...list, list[list.length - 1] + 1]">Add item</button>
-    <button @click="list.splice(count, 1); list = [...list]">Remove item</button>
+    <button @click="$list = [...$list.map(v => v*2)]">Double item</button>
+    <button @click="$list = [...$list, $list[$list.length - 1] + 1]">Add item</button>
+    <button @click="$list.splice($count, 1); $list = [...$list]">Remove item</button>
 
-    <ul x-for="item in list">
+    <ul x-for="item in $list">
       <li x-text="item"></li>
       <span>Bonjour</span>
     </ul>
   </div>
-  <div x-data="{color: '#000000'}">
-    <span x-text="color"></span>
-    <input x-model="color" type="color" />
-    <div x-bind:style="'background-color:' + color">
+  <div x-data="{color: '#90aa0f'}">
+    <span x-text="$color"></span>
+    <input x-model="$color" type="color" />
+    <div x-bind:style="'background-color:' + $color">
       <p :class="'white'">This is a colored element</p>
     </div>
   </div>
