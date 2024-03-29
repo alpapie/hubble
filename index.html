@@ -40,7 +40,7 @@
 
     <button @click="$list = [...$list.map(v => v*2)]">Double item</button>
     <button @click="$list = [...$list, $list[$list.length - 1] + 1]">Add item</button>
-    <button @click="$list.splice($count + 1, 1); $list = [...$list]">Remove item</button>
+    <button @click="$list.splice($count - 1, 1); $list = [...$list]">Remove item</button>
 
     <ul x-for="item in $list">
       <li x-text="item"></li>
