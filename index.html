@@ -14,10 +14,11 @@
 </head>
 
 <body>
-  <div x-data="{count: 4, list: [1, 2, 3], isShow: false}">
-    <span x-text="$list[0]"></span>
-    <span x-text="$list[1]"></span>
-    <span x-text="$list[2]"></span>
+  <div
+    x-data="{count: 4, list: [{name:' Task 1', complete:false}, {name:'Task 2', complete:true}, {name:'Task 3', complete:false}], isShow: false}">
+    <span x-text="$list[0].name + ':' + $list[0].complete"></span>
+    <span x-text="$list[1].name + ':' + $list[1].complete"></span>
+    <span x-text="$list[2].name + ':' + $list[2].complete"></span>
     <span x-text="'Date: ' + new Date().getFullYear()"></span>
     <div>
       <button @click="$count--">-</button>
@@ -38,18 +39,23 @@
       <p x-if="$isShow">Content to show</p>
     </div>
 
-    <button @click="$list = [...$list.map(v => v*2)]">Double item</button>
-    <button @click="$list = [...$list, $count]">Add item</button>
+    <button @click="$list = [...$list.map(v => ({...v, complete: true}))]">Double item</button>
+    <button @click="$list = [...$list, {name:'Task '+$count, complete:false}]">Add item</button>
     <button @click="$list.splice($count - 1, 1); $list = [...$list]">Remove item</button>
 
-    <ul x-for="item in $list">
-      <li x-text="item"></li>
-      <span>Bonjour</span>
+    <ul x-for="item, key in $list">
+      <li>
+        <input type="checkbox" :checked="item.complete"
+          @click="$list = [...$list.map((v, i) => key === i ? ({...v, complete: !v.complete}) : v)]; console.log($list)" />
+        <span x-text="item.name"></span>
+        <span x-text="key+1"></span>
+      </li>
     </ul>
   </div>
   <div x-data="{color: '#90aa0f'}">
     <span x-text="$color"></span>
     <input x-model="$color" type="color" />
+    <span x-bind:style="'font-weight: bold; color:' + $color">COLOR</span>
     <div x-bind:style="'background-color:' + $color">
       <p :class="'white'">This is a colored element</p>
     </div>

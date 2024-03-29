@@ -11,7 +11,11 @@ window.hubble = {
     'x-bind': (el, value) => {
       const attrName = el.getAttributeNames().find(name => name.startsWith("x-bind:") || name.startsWith(":"));
       const actualAttrName = attrName.startsWith(":") ? attrName.substring(1) : attrName.substring(7);
-      el.setAttribute(actualAttrName, value);
+      if (actualAttrName === 'checked') {
+        if (value) el.setAttribute(actualAttrName, "");
+      } else {
+        el.setAttribute(actualAttrName, value);
+      }
     },
     'x-model': (el, value, uuid) => {
       const key = el.getAttribute('x-model').replaceAll('$', '');
@@ -86,10 +90,12 @@ window.hubble = {
         }
       }
     },
-    'x-item-key': (el, value) => {
-    },
-    "x-for": (el, value, uuid) => {
-      const [item, array] = value.split(' in ');
+    "x-for": (el, value, uuid, key) => {
+      console.log(">>>>>>>>>>>>>>>>>>>>>", key);
+      let [item, array] = value.split(' in ');
+      if (key === "$" && hubble.init) key = array
+      if (key !== array) return false;
+
       let template;
       if (hubble.init) {
         template = el.innerHTML;
@@ -98,21 +104,31 @@ window.hubble = {
         template = el.getAttribute('x-temp');
       }
 
+      const withIndex = item.split(', ');
+      if (withIndex.length === 2) {
+        item = item.split(', ')[0];
+      }
+
       el.innerHTML = '';
 
       const _array = array.replaceAll('$', '');
       hubble.data[uuid][_array].forEach((_, index) => {
         const templateInstance = document.createElement('template');
-        const html = template.replace(new RegExp(item, 'g'), `${array}[${index}]`);
+        let html = template.replaceAll(new RegExp(item, 'g'), `${array}[${index}]`);
+        if (withIndex.length === 2) {
+          html = html.replaceAll(new RegExp(withIndex[1], 'g'), `${index}`);
+        }
         templateInstance.innerHTML = html;
         const content = templateInstance.content.cloneNode(true);
         el.appendChild(content);
       });
+
+      return true;
     }
   },
   start() {
     const dataElements = document.querySelectorAll('[x-data]');
-    console.log(dataElements);
+
     dataElements.forEach((element) => {
       const dataString = element.getAttribute('x-data');
       const dataObject = eval(`(${dataString})`);
@@ -125,14 +141,16 @@ window.hubble = {
     const proxyData = new Proxy(({ ...data, uuid }), {
       set: (target, key, value) => {
         target[key] = value;
-        hubble.updateDOM(container, target.uuid);
+        console.log(key);
+        hubble.updateDOM(container, target.uuid, '$' + key);
         return true;
       }
     });
     hubble.data[uuid] = proxyData;
     this.updateDOM(container, uuid);
   },
-  updateDOM(container, uuid) {
+  updateDOM(container, uuid, key = "$") {
+    let shouldRemountEvent = false;
     this.walkDom(container, (el) => {
       for (const attr of el.attributes) {
         let { name, value } = attr;
@@ -140,11 +158,11 @@ window.hubble = {
           const _value = value.replaceAll('$', 'hubble.data[uuid].')
           this.directives['x-bind'](el, eval(_value), uuid)
         } else if (name.startsWith('x-for')) {
-          this.directives['x-for'](el, value, uuid)
+          shouldRemountEvent = this.directives['x-for'](el, value, uuid, key)
         } else if (Object.keys(this.directives).some((k) => name.startsWith(k))) {
           const _value = value.replaceAll('$', 'hubble.data[uuid].')
           this.directives[name](el, eval(_value), uuid)
-        } else if (this.init && name.startsWith('@')) {
+        } else if ((this.init || shouldRemountEvent) && name.startsWith('@')) {
           const keyEventMatch = name.match(/^@(keydown|keyup)(\.[a-zA-Z]+)*$/);
           if (keyEventMatch) {
             const modifiers = keyEventMatch[2] ? keyEventMatch[2].split('.').slice(1) : [];
