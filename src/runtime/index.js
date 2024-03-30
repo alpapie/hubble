@@ -91,7 +91,6 @@ window.hubble = {
       }
     },
     "x-for": (el, value, uuid, key) => {
-      console.log(">>>>>>>>>>>>>>>>>>>>>", key);
       let [item, array] = value.split(' in ');
       if (key === "$" && hubble.init) key = array
       if (key !== array) return false;
