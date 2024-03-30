@@ -1,35 +1,82 @@
 <script>
-  function Getdata(data) {
+  function Getdata(data = []) {
+    data.filter(elem => elem.id != id)
+    let  todoInput=  document.getElementById('todo-input').value ?? ""
+    if (todoInput.trim()) {
+      
+    }
+    data.map((elem,index)=> {
+      if(index===key){
+        elem.name=todo.name
+      }
+    })
+    console.log(item.id); list = [ ...list.filter((elem)=> elem.id!=1)]
     return data;
   }
+  
+
 </script>
 
 <section class="todoapp" id="root">
-  <header class="header" data-testid="header">
-    <h1>todos</h1>
-    <div class="input-container">
-      <input
-        class="new-todo"
-        id="todo-input"
-        type="text"
-        data-testid="text-input"
-        placeholder="What needs to be done?"
-        value=""
-      />
-    </div>
-  </header>
-  <main class="main" data-testid="main">
-    <div class="toggle-all-container">
-      <input class="toggle-all"
-        type="checkbox"
-        data-testid="toggle-all"
-      /><label class="toggle-all-label" for="toggle-all"
-        >Toggle All Input</label
-      >
-    </div>
-    <ul class="todo-list" data-testid="todo-list">
-        <hub-item>  <hub-item/>
-    </ul>
-  </main>
-  <hub-footer></hub-footer>
+  <div x-data="{
+    list:   [{name:' Task 1', complete:false}, {name:'Task 2', complete:true}, {name:'Task 3', complete:false}] ,
+    input:'',
+    edit:''
+  }">
+    <header class="header" data-testid="header">
+      <h1>todos</h1>
+      <div class="input-container">
+        <input class="new-todo" id="todo-input" type="text" data-testid="text-input"
+          placeholder="What needs to be done?" value="" x-model="$input" @keyup.enter="
+          console.log($input,value)
+          if ($input.trim()) {
+            $list =[...$list,{
+              name:$input,
+              complete: false
+            }]
+            $input=''
+          }
+          document.getElementById('todo-input').value=''
+          " />
+      </div>
+    </header>
+    <main class="main" >
+      <div class="toggle-all-container">
+        <input class="toggle-all" type="checkbox"  /><label class="toggle-all-label"
+          for="toggle-all">Toggle All Input </label>
+      </div>
+      <ul x-for="todo, key in $list" class="todo-list" >
+        <!-- <hub-item x-props="{data: todo}">  <hub-item /> -->
+          <li class="" >
+            <div class="view-key" @click="
+            console.log('click edit')
+            document.querySelector('.view-key').style.display='none'
+            document.querySelector('.input-container-key').style.display='block'
+            ">
+              <input class="toggle" type="checkbox" :checked="todo.complete" />
+              <label  x-text="todo.name"> </label>
+              <button class="destroy" @click="
+              $list = [ ...$list.filter((task, index) => index !== key)]
+               console.log(key)" id=""></button>
+            </div>
+          </li>
+          <div class="input-container-key" style="display: none;">
+            <input value="" id="todo-input" type="text" x-model="$edit" class="edit" @keyup.enter="
+            console.log($input)
+             if ($edit.trim()) {
+                $list =$list.map((elem,index)=> {
+                if(index===key){
+                  elem.name=$edit
+                }
+              })
+              $edit=''
+            }
+            document.querySelector('.view-key').style.display='block'
+            document.querySelector('.input-container-key').style.display='none'
+            "  />
+          </div>
+        </ul>
+    </main>
+    <hub-footer></hub-footer>
+  </div>
 </section>

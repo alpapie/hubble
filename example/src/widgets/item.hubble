@@ -1,14 +1,18 @@
 <div x-data="{
-  data:'new item'
+  props
 }">
-
-    <li class="" data-testid="todo-item">
-      <div class="view">
-        <input class="toggle" type="checkbox" data-testid="todo-item-toggle" />
-        <label data-testid="todo-item-label" x-text="data"> </label>
-        <button class="destroy" data-testid="todo-item-button"></button>
+    <li class=""  @ckick="
+    ">
+      <div class="view key">
+        <input class="toggle" type="checkbox" :checked="props.todo.complete" />
+        <label  x-text="props.data"> </label>
+        <button class="destroy" @click="
+        $list = [ ...$list.filter((task, index) => index !== key)]
+         console.log(key)" id=""></button>
       </div>
     </li>
-
+    <div class="input-container">
+      <input value='' x-model="props.todo.name" id="edit-todo-input" class="edit"  />
+    </div>
 </div>
 

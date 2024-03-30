@@ -79,22 +79,24 @@ function addRuntimeCode() {
     return runtimeCode;
 }
 function createComponent(componentName = "", htmlContent, javaScriptCode) {
-    // const regex = /x-data="({[^}]*})"/;
-    // const match = htmlContent.match(regex);
-    // let xData 
-    // if (match) {
-    //     xData = match[1]; 
-    //     console.log("matched ",xData)
-    //     xData= xData.replace("props",'props:${this.props}')
-    // }
-    // htmlContent= htmlContent.replace(regex,`x-data=`+xData)
+    const regex = /x-data="({[^}]*})"/;
+    const match = htmlContent.match(regex);
+    let xData 
+    if (match) {
+        xData = match[1]; 
+        // console.log("matched ",xData)
+        xData= xData.replace("props",'props:${this.props}')
+    }
+    console.log(htmlContent);
+    htmlContent= htmlContent.replace(regex,`x-data="${xData}"`)
+    let det=componentName.slice(2)
     const componentContent = `
 class ${componentName} extends HTMLElement {
     constructor() {
         super();
         //this.attachShadow({ mode: 'open' });
-        this.props=this.getAttribute("x-prop")
-        console.log(this.props)
+        this.props=this.getAttribute("x-props")
+        console.log(this.props+' ${componentName}')
         ${javaScriptCode}
     }
     connectedCallback(){
