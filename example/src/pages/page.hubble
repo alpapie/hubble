@@ -45,36 +45,36 @@
         <input class="toggle-all" type="checkbox"  /><label class="toggle-all-label"
           for="toggle-all">Toggle All Input </label>
       </div>
-      <ul x-for="todo, key in $list" class="todo-list" >
+      <ul x-for="todo, index in $list" class="todo-list" >
         <!-- <hub-item x-props="{data: todo}">  <hub-item /> -->
-          <li class="" >
-            <div class="view-key" @click="
-            console.log('click edit')
-            document.querySelector('.view-key').style.display='none'
-            document.querySelector('.input-container-key').style.display='block'
-            ">
-              <input class="toggle" type="checkbox" :checked="todo.complete" />
-              <label  x-text="todo.name"> </label>
-              <button class="destroy" @click="
-              $list = [ ...$list.filter((task, index) => index !== key)]
-               console.log(key)" id=""></button>
+            <div class="">
+              <li class="" >
+                <div class="view-index" @click="
+                  console.log('click edit')
+                  document.querySelector('.view-index').style.display='none'
+                  document.querySelector('.input-container-index').style.display='block'
+                  $edit=todo.name
+                ">
+                  <input class="toggle" type="checkbox" :checked="todo.complete" />
+                  <label  x-text="todo.name"> </label>
+                  <button class="destroy" @click="
+                  console.log('elete item')
+                  $list = [ ...$list.filter((task, index) => index !== index)]
+                  console.log(index)" id=""></button>
+                </div>
+              </li>
+              <div class="input-container-index inputToedit" style="display: none;">
+                <input type="text" value="" x-model="$edit" class="edit" @keyup.enter="
+                  if ($edit.trim()) {
+                    $list =[...$list.map((v, i) => index === i ? ({...v, name: $edit}) : v)]
+                  }
+                  console.log($list)
+                  $edit=''
+                  document.querySelector('.view-index').style.display='block'
+                  document.querySelector('.input-container-index').style.display='none'
+                "  />
+              </div>
             </div>
-          </li>
-          <div class="input-container-key" style="display: none;">
-            <input value="" id="todo-input" type="text" x-model="$edit" class="edit" @keyup.enter="
-            console.log($input)
-             if ($edit.trim()) {
-                $list =$list.map((elem,index)=> {
-                if(index===key){
-                  elem.name=$edit
-                }
-              })
-              $edit=''
-            }
-            document.querySelector('.view-key').style.display='block'
-            document.querySelector('.input-container-key').style.display='none'
-            "  />
-          </div>
         </ul>
     </main>
     <hub-footer></hub-footer>
