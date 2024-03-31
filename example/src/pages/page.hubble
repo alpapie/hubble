@@ -20,8 +20,7 @@
 <section class="todoapp" id="root">
   <div x-data="{
     list:   [{name:' Task 1', complete:false}, {name:'Task 2', complete:true}, {name:'Task 3', complete:false}] ,
-    input:'',
-    edit:''
+    input:''
   }">
     <header class="header" data-testid="header">
       <h1>todos</h1>
@@ -53,23 +52,22 @@
                   console.log('click edit')
                   document.querySelector('.view-index').style.display='none'
                   document.querySelector('.input-container-index').style.display='block'
-                  $edit=todo.name
+                  // $edit=todo.name
                 ">
                   <input class="toggle" type="checkbox" :checked="todo.complete" />
                   <label  x-text="todo.name"> </label>
                   <button class="destroy" @click="
                   console.log('elete item')
-                  $list = [ ...$list.filter((task, index) => index !== index)]
+                  $list = [ ...$list.filter((task, j) => j !== index)]
                   console.log(index)" id=""></button>
                 </div>
               </li>
               <div class="input-container-index inputToedit" style="display: none;">
-                <input type="text" value="" x-model="$edit" class="edit" @keyup.enter="
-                  if ($edit.trim()) {
-                    $list =[...$list.map((v, i) => index === i ? ({...v, name: $edit}) : v)]
+                <input type="text" :value="todo.name" class="edit" @keyup.enter="
+                  console.log(todo.name)
+                  if (document.querySelector('.input-container-index > input').value.trim()) {
+                    $list =[...$list.map((v, i) => index === i ? ({...v, name: document.querySelector('.input-container-index > input').value}) : v)]
                   }
-                  console.log($list)
-                  $edit=''
                   document.querySelector('.view-index').style.display='block'
                   document.querySelector('.input-container-index').style.display='none'
                 "  />
