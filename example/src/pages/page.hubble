@@ -20,14 +20,14 @@
 <section class="todoapp" id="root">
   <div x-data="{
     list:   [{name:' Task 1', complete:false}, {name:'Task 2', complete:true}, {name:'Task 3', complete:false}] ,
-    input:''
+    input:'',
+    filter:'all'
   }">
     <header class="header" data-testid="header">
       <h1>todos</h1>
       <div class="input-container">
         <input class="new-todo" id="todo-input" type="text" data-testid="text-input"
           placeholder="What needs to be done?" value="" x-model="$input" @keyup.enter="
-          console.log($input,value)
           if ($input.trim()) {
             $list =[...$list,{
               name:$input,
@@ -47,9 +47,8 @@
       <ul x-for="todo, index in $list" class="todo-list" >
         <!-- <hub-item x-props="{data: todo}">  <hub-item /> -->
             <div class="">
-              <li class="completed" >
+              <li class="" x-if=" $filter === 'all' || ($filter === 'completed' && todo.complete) || ($filter === 'active' &&  !todo.complete)">
                 <div class="view-index" @dblclick="
-                  console.log('click edit')
                   document.querySelector('.view-index').style.display='none'
                   document.querySelector('.input-container-index').style.display='block'
                   // $edit=todo.name
@@ -74,9 +73,9 @@
     <footer class="footer" data-testid="footer">
       <!-- <span class="todo-count">1 item left!</span> -->
       <ul class="filters" data-testid="footer-navigation">
-        <li><a class="selected" href="#/">All</a></li>
-        <li><a class="" href="#/active">Active</a></li>
-        <li><a class="" href="#/completed">Completed</a></li>
+        <li><a :class="selected" href="#/" @click="$filter='all'" >All</a></li>
+        <li><a :class="" href="#/active" @click="$filter='active'">Active</a></li>
+        <li><a :class="" href="#/completed" @click="$filter='completed'">Completed</a></li>
       </ul>
       <button class="clear-completed" @click="
         $list=[ ...$list.filter((task) => task.complete !==true )]

@@ -31,9 +31,9 @@ export default class Router extends HTMLElement {
         /**
          * Listens to hash changes and forwards the new hash to route
          */
-        this.hashChangeListener = event => {
-            this.previousRoute = this.route(location.hash, false, event.newURL === event.oldURL)
-        }
+        // this.hashChangeListener = event => {
+        //     this.previousRoute = this.route(location.hash, false, event.newURL === event.oldURL)
+        // }
     }
 
     connectedCallback() {

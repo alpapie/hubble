@@ -1,108 +1,4 @@
 
-class Activepage extends HTMLElement {
-    constructor() {
-        super();
-        //this.attachShadow({ mode: 'open' });
-        this.props=this.getAttribute("x-props")
-        console.log(typeof this.props+' Activepage')
-        function Getdata(data) {
-      return data;
-    }
-    }
-    connectedCallback(){
-        this.render()
-    }
-    render(){
-        let content= `
-        <section class="todoapp" id="root">
-    <header class="header" data-testid="header">
-      <h1>todos</h1>
-      <div class="input-container">
-        <input
-          class="new-todo"
-          id="todo-input"
-          type="text"
-          data-testid="text-input"
-          placeholder="What needs to be done?"
-          value=""
-        />
-      </div>
-    </header>
-    <main class="main" data-testid="main">
-      <div class="toggle-all-container">
-        <input
-          class="toggle-all"
-          type="checkbox"
-          data-testid="toggle-all"
-        /><label class="toggle-all-label" for="toggle-all"
-          >Toggle All Input</label
-        >
-      </div>
-      <ul class="todo-list" data-testid="todo-list">
-          <hub-item>  <hub-item/>
-      </ul>
-    </main>
-    <hub-footer></hub-footer>
-  </section>
-        `;
-        
-        this.innerHTML=content
-    }
-}
-customElements.define('hub-activepage', Activepage);
-    
-class Completedpage extends HTMLElement {
-    constructor() {
-        super();
-        //this.attachShadow({ mode: 'open' });
-        this.props=this.getAttribute("x-props")
-        console.log(typeof this.props+' Completedpage')
-        function Getdata(data) {
-      return data;
-    }
-    }
-    connectedCallback(){
-        this.render()
-    }
-    render(){
-        let content= `
-        <section class="todoapp" id="root">
-    <header class="header" data-testid="header">
-      <h1>todos</h1>
-      <div class="input-container">
-        <input
-          class="new-todo"
-          id="todo-input"
-          type="text"
-          data-testid="text-input"
-          placeholder="What needs to be done?"
-          value=""
-        />
-      </div>
-    </header>
-    <main class="main" data-testid="main">
-      <div class="toggle-all-container">
-        <input
-          class="toggle-all"
-          type="checkbox"
-          data-testid="toggle-all"
-        /><label class="toggle-all-label" for="toggle-all"
-          >Toggle All Input</label
-        >
-      </div>
-      <ul class="todo-list" data-testid="todo-list">
-        <hub-item>  <hub-item/>
-      </ul>
-    </main>
-    <hub-footer></hub-footer>
-  </section>
-        `;
-        
-        this.innerHTML=content
-    }
-}
-customElements.define('hub-completedpage', Completedpage);
-    
 class page extends HTMLElement {
     constructor() {
         super();
@@ -132,14 +28,14 @@ class page extends HTMLElement {
         <section class="todoapp" id="root">
   <div x-data="{
     list:   [{name:' Task 1', complete:false}, {name:'Task 2', complete:true}, {name:'Task 3', complete:false}] ,
-    input:''
+    input:'',
+    filter:'all'
   }">
     <header class="header" data-testid="header">
       <h1>todos</h1>
       <div class="input-container">
         <input class="new-todo" id="todo-input" type="text" data-testid="text-input"
           placeholder="What needs to be done?" value="" x-model="$input" @keyup.enter="
-          console.log($input,value)
           if ($input.trim()) {
             $list =[...$list,{
               name:$input,
@@ -159,9 +55,8 @@ class page extends HTMLElement {
       <ul x-for="todo, index in $list" class="todo-list" >
         <!-- <hub-item x-props="{data: todo}">  <hub-item /> -->
             <div class="">
-              <li class="completed" >
+              <li class="" x-if=" $filter === 'all' || ($filter === 'completed' && todo.complete) || ($filter === 'active' &&  !todo.complete)">
                 <div class="view-index" @dblclick="
-                  console.log('click edit')
                   document.querySelector('.view-index').style.display='none'
                   document.querySelector('.input-container-index').style.display='block'
                   // $edit=todo.name
@@ -186,9 +81,9 @@ class page extends HTMLElement {
     <footer class="footer" data-testid="footer">
       <!-- <span class="todo-count">1 item left!</span> -->
       <ul class="filters" data-testid="footer-navigation">
-        <li><a class="selected" href="#/">All</a></li>
-        <li><a class="" href="#/active">Active</a></li>
-        <li><a class="" href="#/completed">Completed</a></li>
+        <li><a class="selected" href="#/" @click="$filter='all'" >All</a></li>
+        <li><a class="" href="#/active" @click="$filter='active'">Active</a></li>
+        <li><a class="" href="#/completed" @click="$filter='completed'">Completed</a></li>
       </ul>
       <button class="clear-completed" @click="
         $list=[ ...$list.filter((task) => task.complete !==true )]
@@ -273,18 +168,6 @@ export default class Router extends HTMLElement {
         this.routes = [
         
         {
-            name: 'hub-activepage',
-            hash: '/active',
-            regExp: new RegExp(/^#\/active$/)
-        }
-                ,
-        {
-            name: 'hub-completedpage',
-            hash: '/completed',
-            regExp: new RegExp(/^#\/completed$/)
-        }
-                ,
-        {
             name: 'hub-page',
             hash: '/',
             regExp: new RegExp(/^#\/$/)
@@ -303,9 +186,9 @@ export default class Router extends HTMLElement {
         /**
          * Listens to hash changes and forwards the new hash to route
          */
-        this.hashChangeListener = event => {
-            this.previousRoute = this.route(location.hash, false, event.newURL === event.oldURL)
-        }
+        // this.hashChangeListener = event => {
+        //     this.previousRoute = this.route(location.hash, false, event.newURL === event.oldURL)
+        // }
     }
 
     connectedCallback() {
