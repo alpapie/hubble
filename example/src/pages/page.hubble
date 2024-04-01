@@ -1,4 +1,7 @@
+<script>
 
+
+</script>
 
 <section class="todoapp" id="root">
   <div x-data="{
@@ -23,12 +26,11 @@
       </div>
     </header>
     <main class="main" >
-      <div class="toggle-all-container"  @click="$list = $list.map(todo => ({...todo, complete: true}))>
+      <div class="toggle-all-container"  @click="$list = $list.map(todo => ({...todo, complete: true}))">
         <input class="toggle-all" type="checkbox"  /><label class="toggle-all-label"
           for="toggle-all">Toggle All Input </label>
       </div>
       <ul x-for="todo, index in $list" class="todo-list" >
-        <!-- <hub-item x-props="{data: todo}">  <hub-item /> -->
             <div class="">
               <li :class="todo.complete" x-if=" $filter === 'all' || ($filter === 'completed' && todo.complete) || ($filter === 'active' &&  !todo.complete)">
                 <div class="view-index" @dblclick="
@@ -53,10 +55,10 @@
             </div>
         </ul>
     </main>
-    <footer class="footer" data-testid="footer">
+    <footer class="footer" data-testid="footer" x-if="$list.length > 0">
       <span class="todo-count" x-text="$list.filter(todo => !todo.complete).length + ' item left!'"></span>
       <ul class="filters" data-testid="footer-navigation">
-        <li><a :class="selected" href="#/" @click="$filter='all'" >All</a></li>
+        <li><a :class="" href="#/" @click="$filter='all'" >All</a></li>
         <li><a :class="" href="#/active" @click="$filter='active'">Active</a></li>
         <li><a :class="" href="#/completed" @click="$filter='completed'">Completed</a></li>
       </ul>
@@ -64,6 +66,5 @@
         $list=[ ...$list.filter((task) => task.complete !==true )]
       ">Clear completed</button>
     </footer>
-    <!-- <hub-footer></hub-footer> -->
   </div>
 </section>
