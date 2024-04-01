@@ -1,7 +1,7 @@
 <script>
   function Getdata(data = []) {
     data.filter(elem => elem.id != id)
-    let  todoInput=  document.getElementById('todo-input').value ?? ""
+    let  todoInput=  document.getElementById('todo-input').addEventListener("dblclick") ?? ""
     if (todoInput.trim()) {
       
     }
@@ -47,24 +47,20 @@
       <ul x-for="todo, index in $list" class="todo-list" >
         <!-- <hub-item x-props="{data: todo}">  <hub-item /> -->
             <div class="">
-              <li class="" >
-                <div class="view-index" @click="
+              <li class="completed" >
+                <div class="view-index" @dblclick="
                   console.log('click edit')
                   document.querySelector('.view-index').style.display='none'
                   document.querySelector('.input-container-index').style.display='block'
                   // $edit=todo.name
                 ">
-                  <input class="toggle" type="checkbox" :checked="todo.complete" />
+                  <input class="toggle" type="checkbox" :checked="todo.complete" @click="$list = [...$list.map((v, i) => index === i ? ({...v, complete: !v.complete}) : v)]" />
                   <label  x-text="todo.name"> </label>
-                  <button class="destroy" @click="
-                  console.log('elete item')
-                  $list = [ ...$list.filter((task, j) => j !== index)]
-                  console.log(index)" id=""></button>
+                  <button class="destroy" @click="$list = [ ...$list.filter((task, j) => j !== index)]" id=""></button>
                 </div>
               </li>
               <div class="input-container-index inputToedit" style="display: none;">
                 <input type="text" :value="todo.name" class="edit" @keyup.enter="
-                  console.log(todo.name)
                   if (document.querySelector('.input-container-index > input').value.trim()) {
                     $list =[...$list.map((v, i) => index === i ? ({...v, name: document.querySelector('.input-container-index > input').value}) : v)]
                   }
@@ -75,6 +71,17 @@
             </div>
         </ul>
     </main>
-    <hub-footer></hub-footer>
+    <footer class="footer" data-testid="footer">
+      <!-- <span class="todo-count">1 item left!</span> -->
+      <ul class="filters" data-testid="footer-navigation">
+        <li><a class="selected" href="#/">All</a></li>
+        <li><a class="" href="#/active">Active</a></li>
+        <li><a class="" href="#/completed">Completed</a></li>
+      </ul>
+      <button class="clear-completed" @click="
+        $list=[ ...$list.filter((task) => task.complete !==true )]
+      ">Clear completed</button>
+    </footer>
+    <!-- <hub-footer></hub-footer> -->
   </div>
 </section>

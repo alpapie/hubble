@@ -96,7 +96,7 @@ class ${componentName} extends HTMLElement {
         super();
         //this.attachShadow({ mode: 'open' });
         this.props=this.getAttribute("x-props")
-        console.log(this.props+' ${componentName}')
+        console.log(typeof this.props+' ${componentName}')
         ${javaScriptCode}
     }
     connectedCallback(){

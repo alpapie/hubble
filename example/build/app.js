@@ -4,7 +4,7 @@ class Activepage extends HTMLElement {
         super();
         //this.attachShadow({ mode: 'open' });
         this.props=this.getAttribute("x-props")
-        console.log(this.props+' Activepage')
+        console.log(typeof this.props+' Activepage')
         function Getdata(data) {
       return data;
     }
@@ -56,7 +56,7 @@ class Completedpage extends HTMLElement {
         super();
         //this.attachShadow({ mode: 'open' });
         this.props=this.getAttribute("x-props")
-        console.log(this.props+' Completedpage')
+        console.log(typeof this.props+' Completedpage')
         function Getdata(data) {
       return data;
     }
@@ -108,10 +108,10 @@ class page extends HTMLElement {
         super();
         //this.attachShadow({ mode: 'open' });
         this.props=this.getAttribute("x-props")
-        console.log(this.props+' page')
+        console.log(typeof this.props+' page')
         function Getdata(data = []) {
     data.filter(elem => elem.id != id)
-    let  todoInput=  document.getElementById('todo-input').value ?? ""
+    let  todoInput=  document.getElementById('todo-input').addEventListener("dblclick") ?? ""
     if (todoInput.trim()) {
       
     }
@@ -159,24 +159,20 @@ class page extends HTMLElement {
       <ul x-for="todo, index in $list" class="todo-list" >
         <!-- <hub-item x-props="{data: todo}">  <hub-item /> -->
             <div class="">
-              <li class="" >
-                <div class="view-index" @click="
+              <li class="completed" >
+                <div class="view-index" @dblclick="
                   console.log('click edit')
                   document.querySelector('.view-index').style.display='none'
                   document.querySelector('.input-container-index').style.display='block'
                   // $edit=todo.name
                 ">
-                  <input class="toggle" type="checkbox" :checked="todo.complete" />
+                  <input class="toggle" type="checkbox" :checked="todo.complete" @click="$list = [...$list.map((v, i) => index === i ? ({...v, complete: !v.complete}) : v)]" />
                   <label  x-text="todo.name"> </label>
-                  <button class="destroy" @click="
-                  console.log('elete item')
-                  $list = [ ...$list.filter((task, j) => j !== index)]
-                  console.log(index)" id=""></button>
+                  <button class="destroy" @click="$list = [ ...$list.filter((task, j) => j !== index)]" id=""></button>
                 </div>
               </li>
               <div class="input-container-index inputToedit" style="display: none;">
                 <input type="text" :value="todo.name" class="edit" @keyup.enter="
-                  console.log(todo.name)
                   if (document.querySelector('.input-container-index > input').value.trim()) {
                     $list =[...$list.map((v, i) => index === i ? ({...v, name: document.querySelector('.input-container-index > input').value}) : v)]
                   }
@@ -187,7 +183,18 @@ class page extends HTMLElement {
             </div>
         </ul>
     </main>
-    <hub-footer></hub-footer>
+    <footer class="footer" data-testid="footer">
+      <!-- <span class="todo-count">1 item left!</span> -->
+      <ul class="filters" data-testid="footer-navigation">
+        <li><a class="selected" href="#/">All</a></li>
+        <li><a class="" href="#/active">Active</a></li>
+        <li><a class="" href="#/completed">Completed</a></li>
+      </ul>
+      <button class="clear-completed" @click="
+        $list=[ ...$list.filter((task) => task.complete !==true )]
+      ">Clear completed</button>
+    </footer>
+    <!-- <hub-footer></hub-footer> -->
   </div>
 </section>
         `;
@@ -202,7 +209,7 @@ class footer extends HTMLElement {
         super();
         //this.attachShadow({ mode: 'open' });
         this.props=this.getAttribute("x-props")
-        console.log(this.props+' footer')
+        console.log(typeof this.props+' footer')
         
     }
     connectedCallback(){
@@ -231,7 +238,7 @@ class item extends HTMLElement {
         super();
         //this.attachShadow({ mode: 'open' });
         this.props=this.getAttribute("x-props")
-        console.log(this.props+' item')
+        console.log(typeof this.props+' item')
         
     }
     connectedCallback(){
@@ -239,21 +246,16 @@ class item extends HTMLElement {
     }
     render(){
         let content= `
-        <div x-data="{
-  props:${this.props}
-}">
-    <li class=""  @ckick="
-    ">
+        <div>
+    <li class=""  >
       <div class="view key">
-        <input class="toggle" type="checkbox" :checked="props.todo.complete" />
-        <label  x-text="props.data"> </label>
-        <button class="destroy" @click="
-        $list = [ ...$list.filter((task, index) => index !== key)]
-         console.log(key)" id=""></button>
+        <input class="toggle" type="checkbox"  />
+        <label  x-text="todo"> </label>
+        <button class="destroy" id=""></button>
       </div>
     </li>
     <div class="input-container">
-      <input value='' x-model="props.todo.name" id="edit-todo-input" class="edit"  />
+      <input value='' id="edit-todo-input" class="edit"  />
     </div>
 </div>
         `;
@@ -262,43 +264,6 @@ class item extends HTMLElement {
     }
 }
 customElements.define('hub-item', item);
-    
-class todo extends HTMLElement {
-    constructor() {
-        super();
-        //this.attachShadow({ mode: 'open' });
-        this.props=this.getAttribute("x-props")
-        console.log(this.props+' todo')
-        
-    }
-    connectedCallback(){
-        this.render()
-    }
-    render(){
-        let content= `
-        <template x-data="{
-    count: 1,
-   props:${this.props}
-}">
-
-</template>
-<span x-text="props"></span>
-<li class="" data-testid="todo-item">
-    <div class="view">
-        <input
-        class="toggle"
-        type="checkbox"
-        data-testid="todo-item-toggle"
-        /><label data-testid="todo-item-label">label alpapie</label
-        ><button class="destroy" data-testid="todo-item-button"></button>
-    </div>
-</li>
-        `;
-        
-        this.innerHTML=content
-    }
-}
-customElements.define('hub-todo', todo);
     
 
 export default class Router extends HTMLElement {
