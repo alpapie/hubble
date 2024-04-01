@@ -220,7 +220,7 @@ body {
 	color: #484848;
 }
 
-.todo-list li.completed label {
+.todo-list li.true label {
 	color: #949494;
 	text-decoration: line-through;
 }

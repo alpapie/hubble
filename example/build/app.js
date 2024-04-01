@@ -152,14 +152,14 @@ class page extends HTMLElement {
       </div>
     </header>
     <main class="main" >
-      <div class="toggle-all-container">
+      <div class="toggle-all-container" @click="$list = $list.map(todo => ({...todo, complete: true}))">
         <input class="toggle-all" type="checkbox"  /><label class="toggle-all-label"
           for="toggle-all">Toggle All Input </label>
       </div>
       <ul x-for="todo, index in $list" class="todo-list" >
         <!-- <hub-item x-props="{data: todo}">  <hub-item /> -->
             <div class="">
-              <li class="completed" >
+              <li :class="todo.complete">
                 <div class="view-index" @dblclick="
                   console.log('click edit')
                   document.querySelector('.view-index').style.display='none'
@@ -183,9 +183,9 @@ class page extends HTMLElement {
             </div>
         </ul>
     </main>
-    <footer class="footer" data-testid="footer">
-      <!-- <span class="todo-count">1 item left!</span> -->
-      <ul class="filters" data-testid="footer-navigation">
+    <footer class="footer" data-testid="footer" x-if="$list.length > 0">
+      <span class="todo-count" x-text="$list.filter(todo => !todo.complete).length + ' item left!'"></span>
+      <ul class="filters" data-testid="footer-navigation"  >
         <li><a class="selected" href="#/">All</a></li>
         <li><a class="" href="#/active">Active</a></li>
         <li><a class="" href="#/completed">Completed</a></li>
