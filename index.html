@@ -6,6 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
     .white {
       color: #fff;
@@ -15,15 +17,16 @@
 
 <body>
   <div
-    x-data="{count: 4, list: [{name:' Task 1', complete:false}, {name:'Task 2', complete:true}, {name:'Task 3', complete:false}], isShow: false, filter: 'all'}">
+    x-data="{count: 4, list: [{name:' Task 1', complete:false}, {name:'Task 2', complete:true}, {name:'Task 3', complete:false}], isShow: false, filter: 'all', isEditing: -1, temp: ''}">
     <span x-text="$list[0].name + ':' + $list[0].complete"></span>
     <span x-text="$list[1].name + ':' + $list[1].complete"></span>
     <span x-text="$list[2].name + ':' + $list[2].complete"></span>
     <span x-text="'Date: ' + new Date().getFullYear()"></span>
     <div>
-      <button @click="$count--">-</button>
+      <p x-text="$temp"></p>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold w-8 h-8 rounded" @click="$count--">-</button>
       <span x-text="$count"></span>
-      <button @click="$count++">+</button>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold w-8 h-8 rounded" @click="$count++">+</button>
       <span x-text="'Double is: ' + ($count * 2)"></span>
     </div>
     <div x-if="$count % 2 === 0">
@@ -33,27 +36,35 @@
       <p>Count is an odd number</p>
     </div>
     <input type="number" x-model="$count" />
-    <input type="range" x-model="$count" max="1000" />
+    <input type="range" x-model="$count" max="1000" min="-1000" />
     <div>
       <label for="show">Show content</label>
       <input id="show" type="checkbox" x-model="$isShow">
       <p x-if="$isShow">Content to show</p>
     </div>
 
-    <button @click="setInterval(() => $count++, 250)">Play</button>
-    <button @click="$filter = 'all'">All</button>
-    <button @click="$filter = 'completed'">Completed</button>
-    <button @click="$filter = 'non-completed'">Non Completed</button>
-    <button @click="$list = [...$list, {name:'Task '+$count, complete:false}]">Add item</button>
-    <button @click="$list.splice($count - 1, 1); $list = [...$list]">Remove item</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+      @click="setInterval(() => $count++, 250)">Play</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+      @click="$filter = 'all'">All</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+      @click="$filter = 'completed'">Completed</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+      @click="$filter = 'non-completed'">Non Completed</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+      @click="$list = [...$list, {name:'New Todo '+$count, complete:false}]">Add item</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+      @click="$list.splice($count - 1, 1); $list = [...$list]">Remove item</button>
 
-    <ul x-for="item, key in $list">
-      <li
+    <ul x-for="item, index in $list">
+      <li class="flex"
         x-if="$filter === 'all' || ($filter === 'completed' && item.complete) || ($filter === 'non-completed' &&  !item.complete)">
         <input type="checkbox" :checked="item.complete"
-          @click="$list = [...$list.map((v, i) => key === i ? ({...v, complete: !v.complete}) : v)]; console.log($list)" />
-        <span x-text="item.name"></span>
-        <span x-text="key+1"></span>
+          @click="$list = [...$list.map((v, i) => index === i ? ({...v, complete: !v.complete}) : v)]" />
+        <input class="bg-red-400" x-if="$isEditing === index" x-model="$temp"
+          @keyup.enter="$list = [...$list.map((v, i) => $isEditing === i ? ({...v, name: $temp}) : v)]; $temp = ''; $isEditing = -1; $list = $list"
+          type="text" />
+        <span x-else x-text="item.name" @click="$isEditing = index; $temp = item.name"></span>
       </li>
     </ul>
   </div>
