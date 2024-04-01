@@ -1,21 +1,4 @@
-<script>
-  function Getdata(data = []) {
-    data.filter(elem => elem.id != id)
-    let  todoInput=  document.getElementById('todo-input').addEventListener("dblclick") ?? ""
-    if (todoInput.trim()) {
-      
-    }
-    data.map((elem,index)=> {
-      if(index===key){
-        elem.name=todo.name
-      }
-    })
-    console.log(item.id); list = [ ...list.filter((elem)=> elem.id!=1)]
-    return data;
-  }
-  
 
-</script>
 
 <section class="todoapp" id="root">
   <div x-data="{
@@ -40,14 +23,14 @@
       </div>
     </header>
     <main class="main" >
-      <div class="toggle-all-container">
+      <div class="toggle-all-container"  @click="$list = $list.map(todo => ({...todo, complete: true}))>
         <input class="toggle-all" type="checkbox"  /><label class="toggle-all-label"
           for="toggle-all">Toggle All Input </label>
       </div>
       <ul x-for="todo, index in $list" class="todo-list" >
         <!-- <hub-item x-props="{data: todo}">  <hub-item /> -->
             <div class="">
-              <li class="" x-if=" $filter === 'all' || ($filter === 'completed' && todo.complete) || ($filter === 'active' &&  !todo.complete)">
+              <li :class="todo.complete" x-if=" $filter === 'all' || ($filter === 'completed' && todo.complete) || ($filter === 'active' &&  !todo.complete)">
                 <div class="view-index" @dblclick="
                   document.querySelector('.view-index').style.display='none'
                   document.querySelector('.input-container-index').style.display='block'
@@ -71,7 +54,7 @@
         </ul>
     </main>
     <footer class="footer" data-testid="footer">
-      <!-- <span class="todo-count">1 item left!</span> -->
+      <span class="todo-count" x-text="$list.filter(todo => !todo.complete).length + ' item left!'"></span>
       <ul class="filters" data-testid="footer-navigation">
         <li><a :class="selected" href="#/" @click="$filter='all'" >All</a></li>
         <li><a :class="" href="#/active" @click="$filter='active'">Active</a></li>
