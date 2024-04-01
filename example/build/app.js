@@ -225,7 +225,6 @@ customElements.define('hub-router', Router);
 
 window.hubble = {
   init: true,
-  cache: [],
   data: [],
   directives: {
     'x-text': (el, value) => {
@@ -291,27 +290,16 @@ window.hubble = {
     },
     'x-if': (el, value) => {
       const nextSibling = el.nextElementSibling;
-      if (hubble.init) {
-        const displayValue = el.style.getPropertyValue('display');
-        if (displayValue !== '') {
-          hubble.cache[el] = displayValue;
-        }
-      }
+
       if (!value) {
-        el.style.display = 'none';
+        el.setAttribute("style", "display: none !important");;
         if (nextSibling && nextSibling.getAttribute('x-else') !== null) {
-          nextSibling.style.display = hubble.cache[nextSibling] || 'block';
+          nextSibling.removeAttribute("style");
         }
       } else {
-        el.style.display = hubble.cache[el] || 'block';
+        el.removeAttribute("style");
         if (nextSibling && nextSibling.getAttribute('x-else') !== null) {
-          if (hubble.init) {
-            const displayValue = nextSibling.style.getPropertyValue('display');
-            if (displayValue !== '') {
-              hubble.cache[nextSibling] = displayValue;
-            }
-          }
-          nextSibling.style.display = 'none';
+          nextSibling.setAttribute("style", "display: none !important");;
         }
       }
     },
@@ -365,7 +353,6 @@ window.hubble = {
     const proxyData = new Proxy(({ ...data, uuid }), {
       set: (target, key, value) => {
         target[key] = value;
-        console.log(key);
         hubble.updateDOM(container, target.uuid, '$' + key);
         return true;
       }

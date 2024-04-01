@@ -1,13 +1,12 @@
 <div>
-    <li class=""  >
-      <div class="view key">
-        <input class="toggle" type="checkbox"  />
-        <label  x-text="todo"> </label>
-        <button class="destroy" id=""></button>
-      </div>
-    </li>
-    <div class="input-container">
-      <input value='' id="edit-todo-input" class="edit"  />
+  <li class="">
+    <div class="view key">
+      <input class="toggle" type="checkbox" />
+      <label x-text="todo"> </label>
+      <button class="destroy" id=""></button>
     </div>
+  </li>
+  <div class="input-container">
+    <input value='' id="edit-todo-input" class="edit" />
+  </div>
 </div>
-
