@@ -24,9 +24,16 @@ A typical Hubble project follows a specific folder structure:
 
 ```
 ├── build
+│   ├── css
+│   ├── images
+│   ├── js
 │   ├── app.js
 │   └── index.html
 ├── src
+│   ├── static
+│   │   ├── css
+│   │   ├── images
+│   │   ├── js
 │   ├── pages
 │   │   ├── blog
 │   │   │   ├── index.hubble
@@ -38,7 +45,7 @@ A typical Hubble project follows a specific folder structure:
 │       ├── footer.hubble
 │       ├── post-card.hubble
 │       └── post-list.hubble
-├── index.js
+├── index.html
 └── package.json
 ```
 
@@ -46,7 +53,7 @@ A typical Hubble project follows a specific folder structure:
 - **src**: Contains the source code for the Hubble application.
   - **pages**: Contains Hubble components for different pages in the application.
   - **widgets**: Contains reusable Hubble components used across multiple pages.
-- **index.js**: Entry point for the Hubble application.
+- **index.html**: Entry point for the Hubble application.
 - **package.json**: Configuration file with build and dev commands.
 
 ---

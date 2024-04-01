@@ -23,13 +23,13 @@ A basic Hubble component consists of HTML markup with Hubble directives. Here's 
 ```html
 <!-- my-component.hubble -->
 <div x-data="{ message: 'Hello, Hubble!' }">
-  <p x-text="message"></p>
+  <p x-text="$message"></p>
 </div>
 ```
 
 In this example:
 - The `x-data` directive initializes the component's data with an object containing a `message` property.
-- The `x-text` directive binds the text content of the `<p>` element to the `message` property.
+- The `x-text` directive binds the text content of the `<p>` element to the `message` property. Notice the use of `$` to refer to the variable.
 
 ---
 
@@ -40,22 +40,33 @@ Hubble directives provide powerful functionality for creating dynamic web applic
 - **x-bind**: Bind HTML attributes or properties to component data.
   ```html
   <button x-bind:disabled="isDisabled">Click me</button>
+  <button :disabled="isDisabled">Click me</button>
   ```
+ Notice that for attribute binding the syntax `:attribute` is also accepted.
 
 - **x-on:event**: Listen for events and execute JavaScript code.
   ```html
   <button x-on:click="handleClick">Click me</button>
+  <button @click="handleClick">Click me</button>
   ```
+ Notice that for event listening the syntax `@event` is also accepted.
 
 - **x-if**: Conditionally render an element based on a boolean expression.
   ```html
   <div x-if="isVisible">Visible content</div>
   ```
+ Notice that `x-else` directive can be used to show another component in case the boolean expression is false.
 
 - **x-for**: Iterate over a collection and generate multiple elements.
   ```html
   <ul>
     <li x-for="item in items" x-text="item"></li>
+  </ul>
+  ```
+  Notice that the index of current item can be used with the syntax:
+  ```html
+  <ul>
+    <li x-for="item, index in items" x-text="item"></li>
   </ul>
   ```
 
@@ -84,7 +95,7 @@ Will result in the following routes:
 - `/home`
 - `/about`
 
-To navigate between routes, you can use anchor tags with the `href` attribute set to the desired route path.
+To navigate between routes, you can use anchor tags with the `href` attribute set to the desired route path (`/#home`, `/#about`).
 
 ---
 
@@ -94,7 +105,7 @@ The Hubble Framework operates by leveraging JavaScript to enhance HTML with dyna
 
 - **Data Binding**: Directives such as `x-data` and `x-model` facilitate two-way data binding between JavaScript data objects and HTML elements.
 - **Event Handling**: Directives like `x-on:event` enable the execution of JavaScript code in response to user events like clicks, input changes, etc.
-- **Conditional Rendering**: The `x-if` directive allows elements to be conditionally rendered based on boolean expressions.
+- **Conditional Rendering**: The `x-if` and `x-else` directives allow elements to be conditionally rendered based on boolean expressions.
 - **Iterating Over Collections**: With the `x-for` directive, developers can iterate over arrays and generate HTML elements dynamically.
 - **Routing**: Hubble offers built-in routing functionality for single-page applications (SPA), allowing developers to define routes based on the folder structure within the `pages` directory.
 
