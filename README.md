@@ -1,4 +1,4 @@
-**Hubble Framework Specification Document**
+# 🛰️ MINI-FRAMEWORK
 
 ---
 
