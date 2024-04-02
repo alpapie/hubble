@@ -181,12 +181,12 @@ export default class Router extends HTMLElement {
         // find the correct route or do nothing
         if ((route = this.routes.find(route => route.regExp.test(hash)))) {
             console.log("find route")
-                if (this.shouldComponentRender(route.name, isUrlEqual)) {
-                    console.log("find componnent")
-                    // document.title = route.title
-                    let component= document.createElement(route.name)
-                    this.render(component)
-                }
+            if (this.shouldComponentRender(route.name, isUrlEqual)) {
+                console.log("find componnent")
+                // document.title = route.title
+                let component= document.createElement(route.name)
+                this.render(component)
+            }
         } else {
             console.log("Not Found");
             self.location.hash = '#/404'
