@@ -103,3 +103,35 @@ Comprehensive documentation is provided to help developers understand and use th
 **8. Conclusion**
 
 The Hubble Framework offers a modern and efficient solution for building dynamic web applications. With its lightweight syntax, component-based architecture, and built-in routing, developers can create robust and scalable applications with ease. By following the specifications outlined in this document, developers can leverage the full potential of the Hubble Framework to create compelling web experiences.
+
+---
+
+# ANNEXE (IMPROVEMENT)
+
+1. **Function Call in Event Listeners**:
+   - Allow function calls directly in event listeners for cleaner and more maintainable code.
+
+2. **x-props Directive**:
+   - Implement the `x-props` directive to pass variables and properties to child components, enhancing component reusability and flexibility.
+
+3. **Conditional Directives**:
+   - Enable the chaining of `x-else` with `x-if` to create more complex conditional rendering logic within components.
+
+4. **Scoped Styles**:
+   - Implement support for scoped styles within Hubble components to prevent style leakage and improve encapsulation.
+
+5. **Global State Management**:
+   - Introduce a global state management solution (e.g., Vuex or Redux) to manage shared state across components more efficiently.
+
+6. **Async Data Loading**:
+   - Provide support for asynchronous data loading in components to fetch data from external sources (e.g., APIs) and update the UI accordingly.
+
+7. **Component Lifecycle Hooks**:
+   - Implement lifecycle hooks (e.g., `created`, `mounted`, `updated`, `destroyed`) to allow developers to execute custom logic at different stages of a component's lifecycle.
+
+8. **Custom Directives**:
+   - Allow developers to define custom directives to extend the functionality of Hubble and implement specific behavior tailored to their applications.
+
+9. **Error Handling**:
+    - Enhance error handling mechanisms to provide more informative error messages and debugging tools for developers.
+
