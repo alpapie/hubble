@@ -113,49 +113,24 @@ class footer extends HTMLElement {
 }
 customElements.define('hub-footer', footer);
     
-class item extends HTMLElement {
-    constructor() {
-        super();
-        //this.attachShadow({ mode: 'open' });
-        this.props=this.getAttribute("x-props")
-        console.log(typeof this.props+' item')
-        
-    }
-    connectedCallback(){
-        this.render()
-    }
-    render(){
-        let content= `
-        <div>
-    <li class=""  >
-      <div class="view key">
-        <input class="toggle" type="checkbox"  />
-        <label  x-text="todo"> </label>
-        <button class="destroy" id=""></button>
-      </div>
-    </li>
-    <div class="input-container">
-      <input value='' id="edit-todo-input" class="edit"  />
-    </div>
-</div>
-        `;
-        
-        this.innerHTML=content
-    }
-}
-customElements.define('hub-item', item);
-    
 
 export default class Router extends HTMLElement {
     constructor() {
         super()
 
+        /** @type {Route[]} */
         this.routes = [
         
         {
             name: 'hub-page',
-            hash: '/',
+            hash: '#/',
             regExp: new RegExp(/^#\/$/)
+        }
+                ,
+        {
+            name: 'hub-acccccczczcpage',
+            hash: '#/acccccczczc',
+            regExp: new RegExp(/^#\/acccccczczc$/)
         }
                 
             // 404 Page not found
@@ -171,31 +146,43 @@ export default class Router extends HTMLElement {
         /**
          * Listens to hash changes and forwards the new hash to route
          */
-        // this.hashChangeListener = event => {
-        //     this.previousRoute = this.route(location.hash, false, event.newURL === event.oldURL)
-        // }
+        this.hashChangeListener = event => {
+            this.previousRoute = this.route(location.hash, false, event.newURL === event.oldURL)
+        }
     }
 
     connectedCallback() {
-        self.addEventListener('hashchange', this.hashChangeListener)
+        // self.addEventListener('hashchange', this.hashChangeListener)
         this.previousRoute = this.route(this.routes.some(route => route.regExp.test(location.hash)) ? location.hash : '#/', true)
+        console.log("connected calback",this.previousRoute )
     }
 
     disconnectedCallback() {
         self.removeEventListener('hashchange', this.hashChangeListener)
     }
 
+    /**
+     * route to the desired hash/domain
+     *
+     * @param {string} hash
+     * @param {boolean} [replace = false]
+     * @param {boolean} [isUrlEqual = true]
+     * @return {Route}
+     */
     route(hash, replace = false, isUrlEqual = true) {
         // escape on route call which is not set by hashchange event and trigger it here, if needed
-        if (location.hash !== hash) {
-            if (replace) location.replace(hash);
-            return this.previousRoute
-        }
+        // if (location.hash !== hash) {
+        //     if (replace) location.replace(hash);
+        //     console.log("Not replace");
+        //     return this.previousRoute
+        // }
 
         let route
         // find the correct route or do nothing
         if ((route = this.routes.find(route => route.regExp.test(hash)))) {
+            console.log("find route")
                 if (this.shouldComponentRender(route.name, isUrlEqual)) {
+                    console.log("find componnent")
                     // document.title = route.title
                     let component= document.createElement(route.name)
                     this.render(component)
@@ -208,13 +195,24 @@ export default class Router extends HTMLElement {
         return route ? route : this.previousRoute
     }
 
-
+    /**
+     * evaluates if a render is necessary
+     *
+     * @param {string} name
+     * @param {boolean} [isUrlEqual = true]
+     * @return {boolean}
+     */
     shouldComponentRender(name, isUrlEqual = true) {
         if (!this.children || !this.children.length) return true
         return !isUrlEqual || this.children[0].tagName !== name.toUpperCase()
     }
 
-  
+    /**
+     * renders the page
+     *
+     * @param {HTMLElement} component
+     * @return {void}
+     */
     render(component) {
         // clear previous content
         this.innerHTML = ''
