@@ -44,7 +44,7 @@ const server = http.createServer((req, res) => {
 });
 
 //server listen in port 2024
-const port = 2024;
+const port = 2020;
 server.listen(port, () => {
     console.log(`Serveur lancé sur le port ${new Date().toUTCString()}: http://localhost:${port}`);
 });

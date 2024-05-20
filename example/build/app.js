@@ -13,16 +13,25 @@ class page extends HTMLElement {
     render(){
         let content= `
         <section class="todoapp" id="root">
-  <div x-data="{
+  <div
+    x-data="{
     list:   [{name:' Task 1', complete:false}, {name:'Task 2', complete:true}, {name:'Task 3', complete:false}] ,
     input:'',
     filter:'all'
-  }">
+  }"
+  >
     <header class="header" data-testid="header">
       <h1>todos</h1>
       <div class="input-container">
-        <input class="new-todo" id="todo-input" type="text" data-testid="text-input"
-          placeholder="What needs to be done?" value="" x-model="$input" @keyup.enter="
+        <input
+          class="new-todo"
+          id="todo-input"
+          type="text"
+          data-testid="text-input"
+          placeholder="What needs to be done?"
+          value=""
+          x-model="$input"
+          @keyup.enter="
           if ($input.trim()) {
             $list =[...$list,{
               name:$input,
@@ -31,49 +40,90 @@ class page extends HTMLElement {
             $input=''
           }
           document.getElementById('todo-input').value=''
-          " />
+          "
+        />
       </div>
     </header>
-    <main class="main" >
-      <div class="toggle-all-container"  @click="$list = $list.map(todo => ({...todo, complete: true}))">
-        <input class="toggle-all" type="checkbox"  /><label class="toggle-all-label"
-          for="toggle-all">Toggle All Input </label>
+    <main class="main">
+      <div
+        class="toggle-all-container"
+        @click="$list = $list.map(todo => ({...todo, complete: true}))"
+      >
+        <input class="toggle-all" type="checkbox" /><label
+          class="toggle-all-label"
+          for="toggle-all"
+          >Toggle All Input
+        </label>
       </div>
-      <ul x-for="todo, index in $list" class="todo-list" >
-            <div class="">
-              <li :class="todo.complete" x-if=" $filter === 'all' || ($filter === 'completed' && todo.complete) || ($filter === 'active' &&  !todo.complete)">
-                <div class="view-index" @dblclick="
+      <ul x-for="todo, index in $list" class="todo-list">
+        <div class="">
+          <li
+            :class="todo.complete"
+            x-if=" $filter === 'all' || ($filter === 'completed' && todo.complete) || ($filter === 'active' &&  !todo.complete)"
+          >
+            <div
+              class="view-index"
+              @dblclick="
                   document.querySelector('.view-index').style.display='none'
                   document.querySelector('.input-container-index').style.display='block'
                   // $edit=todo.name
-                ">
-                  <input class="toggle" type="checkbox" :checked="todo.complete" @click="$list = [...$list.map((v, i) => index === i ? ({...v, complete: !v.complete}) : v)]" />
-                  <label  x-text="todo.name"> </label>
-                  <button class="destroy" @click="$list = [ ...$list.filter((task, j) => j !== index)]" id=""></button>
-                </div>
-              </li>
-              <div class="input-container-index inputToedit" style="display: none;">
-                <input type="text" :value="todo.name" class="edit" @keyup.enter="
+                "
+            >
+              <input
+                class="toggle"
+                type="checkbox"
+                :checked="todo.complete"
+                @click="$list = [...$list.map((v, i) => index === i ? ({...v, complete: !v.complete}) : v)]"
+              />
+              <label x-text="todo.name"> </label>
+              <button
+                class="destroy"
+                @click="$list = [ ...$list.filter((task, j) => j !== index)]"
+                id=""
+              ></button>
+            </div>
+          </li>
+          <div class="input-container-index inputToedit" style="display: none">
+            <input
+              type="text"
+              :value="todo.name"
+              class="edit"
+              @keyup.enter="
                   if (document.querySelector('.input-container-index > input').value.trim()) {
                     $list =[...$list.map((v, i) => index === i ? ({...v, name: document.querySelector('.input-container-index > input').value}) : v)]
                   }
                   document.querySelector('.view-index').style.display='block'
                   document.querySelector('.input-container-index').style.display='none'
-                "  />
-              </div>
-            </div>
-        </ul>
+                "
+            />
+          </div>
+        </div>
+      </ul>
     </main>
     <footer class="footer" data-testid="footer" x-if="$list.length > 0">
-      <span class="todo-count" x-text="$list.filter(todo => !todo.complete).length + ' item left!'"></span>
+      <span
+        class="todo-count"
+        x-text="$list.filter(todo => !todo.complete).length + ' item left!'"
+      ></span>
       <ul class="filters" data-testid="footer-navigation">
-        <li><a :class="" href="#/" @click="$filter='all'" >All</a></li>
-        <li><a :class="" href="#/active" @click="$filter='active'">Active</a></li>
-        <li><a :class="" href="#/completed" @click="$filter='completed'">Completed</a></li>
+        <li><a :class="" href="#/" @click="$filter='all'">All</a></li>
+        <li>
+          <a :class="" href="#/active" @click="$filter='active'">Active</a>
+        </li>
+        <li>
+          <a :class="" href="#/completed" @click="$filter='completed'"
+            >Completed</a
+          >
+        </li>
       </ul>
-      <button class="clear-completed" @click="
+      <button
+        class="clear-completed"
+        @click="
         $list=[ ...$list.filter((task) => task.complete !==true )]
-      ">Clear completed</button>
+      "
+      >
+        Clear completed
+      </button>
     </footer>
   </div>
 </section>
@@ -98,20 +148,52 @@ class footer extends HTMLElement {
     render(){
         let content= `
         <footer class="footer" data-testid="footer">
-    <span class="todo-count">1 item left!</span>
-    <ul class="filters" data-testid="footer-navigation">
-      <li><a class="selected" href="#/">All</a></li>
-      <li><a class="" href="#/active">Active</a></li>
-      <li><a class="" href="#/completed">Completed</a></li>
-    </ul>
-    <button class="clear-completed" disabled="">Clear completed</button>
-  </footer>
+  <span class="todo-count">1 item left!</span>
+  <ul class="filters" data-testid="footer-navigation">
+    <li><a class="selected" href="#/">All</a></li>
+    <li><a class="" href="#/active">Active</a></li>
+    <li><a class="" href="#/completed">Completed</a></li>
+  </ul>
+  <button class="clear-completed" disabled="">Clear completed</button>
+</footer>
         `;
         
         this.innerHTML=content
     }
 }
 customElements.define('hub-footer', footer);
+    
+class item extends HTMLElement {
+    constructor() {
+        super();
+        //this.attachShadow({ mode: 'open' });
+        this.props=this.getAttribute("x-props")
+        console.log(typeof this.props+' item')
+        
+    }
+    connectedCallback(){
+        this.render()
+    }
+    render(){
+        let content= `
+        <div>
+  <li class="">
+    <div class="view key">
+      <input class="toggle" type="checkbox" />
+      <label x-text="todo"> </label>
+      <button class="destroy" id=""></button>
+    </div>
+  </li>
+  <div class="input-container">
+    <input value='' id="edit-todo-input" class="edit" />
+  </div>
+</div>
+        `;
+        
+        this.innerHTML=content
+    }
+}
+customElements.define('hub-item', item);
     
 
 export default class Router extends HTMLElement {
@@ -223,7 +305,6 @@ customElements.define('hub-router', Router);
 
 window.hubble = {
   init: true,
-  cache: [],
   data: [],
   directives: {
     'x-text': (el, value) => {
@@ -289,27 +370,16 @@ window.hubble = {
     },
     'x-if': (el, value) => {
       const nextSibling = el.nextElementSibling;
-      if (hubble.init) {
-        const displayValue = el.style.getPropertyValue('display');
-        if (displayValue !== '') {
-          hubble.cache[el] = displayValue;
-        }
-      }
+
       if (!value) {
-        el.style.display = 'none';
+        el.setAttribute("style", "display: none !important");;
         if (nextSibling && nextSibling.getAttribute('x-else') !== null) {
-          nextSibling.style.display = hubble.cache[nextSibling] || 'block';
+          nextSibling.removeAttribute("style");
         }
       } else {
-        el.style.display = hubble.cache[el] || 'block';
+        el.removeAttribute("style");
         if (nextSibling && nextSibling.getAttribute('x-else') !== null) {
-          if (hubble.init) {
-            const displayValue = nextSibling.style.getPropertyValue('display');
-            if (displayValue !== '') {
-              hubble.cache[nextSibling] = displayValue;
-            }
-          }
-          nextSibling.style.display = 'none';
+          nextSibling.setAttribute("style", "display: none !important");;
         }
       }
     },
@@ -363,7 +433,6 @@ window.hubble = {
     const proxyData = new Proxy(({ ...data, uuid }), {
       set: (target, key, value) => {
         target[key] = value;
-        console.log(key);
         hubble.updateDOM(container, target.uuid, '$' + key);
         return true;
       }
